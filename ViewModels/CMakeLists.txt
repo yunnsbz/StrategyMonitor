@@ -1,5 +1,5 @@
 add_library(ViewModels
-    MockDataGenerator.h
+
 )
 
 target_include_directories(ViewModels

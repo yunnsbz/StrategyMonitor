@@ -19,9 +19,7 @@ add_subdirectory(Views)
 
 set(PROJECT_SOURCES
     main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
+    MockDataGenerator.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

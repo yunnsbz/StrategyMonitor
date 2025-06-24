@@ -1,4 +1,6 @@
 add_library(Models
+    StrategyData.h
+    OrderData.h
 )
 
 target_include_directories(Models

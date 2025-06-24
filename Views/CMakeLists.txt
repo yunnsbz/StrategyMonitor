@@ -1,4 +1,7 @@
 add_library(Views
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
 )
 
 target_include_directories(Views
@@ -8,5 +11,5 @@ target_include_directories(Views
 target_link_libraries(Views
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Gui
-    Models
+    ViewModels
 )
