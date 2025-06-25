@@ -14,7 +14,7 @@ public:
 
 public slots:
     void onStrategyTimerTimeout();
-    void onOrderyTimerTimeout();
+    void onOrderTimerTimeout();
 
 signals:
     void strategyUpdateGenerated(const StrategyData& strategy);

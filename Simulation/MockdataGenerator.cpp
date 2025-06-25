@@ -20,7 +20,7 @@ MockDataGenerator::MockDataGenerator()
 
     m_strategyTimer->start(m_strategyInterval);
 
-    connect(m_orderTimer, &QTimer::timeout, this, &MockDataGenerator::onOrderyTimerTimeout);
+    connect(m_orderTimer, &QTimer::timeout, this, &MockDataGenerator::onOrderTimerTimeout);
 
     m_orderTimer->start(m_orderInterval);
 }
@@ -32,7 +32,7 @@ void MockDataGenerator::onStrategyTimerTimeout()
     emit strategyUpdateGenerated(data);
 }
 
-void MockDataGenerator::onOrderyTimerTimeout()
+void MockDataGenerator::onOrderTimerTimeout()
 {
     const OrderData data = createOrder();
 
