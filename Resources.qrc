@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>Views/check_box.svg</file>
+        <file>Views/check_box_blank.svg</file>
+        <file>Views/square_paused.svg</file>
+        <file>Views/square_running.svg</file>
+    </qresource>
+</RCC>
