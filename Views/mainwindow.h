@@ -8,6 +8,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class MainViewModel;
+class StrategiesViewModel;
 
 class MainWindow : public QMainWindow
 {
@@ -17,10 +18,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
+
 private:
     Ui::MainWindow *ui;
 
-    MainViewModel* MainViewModel_;
+    MainViewModel* MainVM;
+    StrategiesViewModel* StrategiesVM;
 
 };
 #endif // MAINWINDOW_H
