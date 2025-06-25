@@ -1,6 +1,6 @@
 #include "MainViewModel.h"
 #include "OrderData.h"
-#include "StrategyData.h"
+
 
 #include <QDebug>
 
@@ -8,14 +8,8 @@ MainViewModel::MainViewModel()
     :
     DataGenerator(new MockDataGenerator())
 {
-    connect(DataGenerator, &MockDataGenerator::strategyUpdateGenerated, this, &MainViewModel::onStrategyDataReceived);
-    connect(DataGenerator, &MockDataGenerator::orderUpdateGenerated, this, &MainViewModel::onOrderDataReceived);
-}
 
-void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)
-{
-    qDebug() << "--------strategy--------";
-    qDebug() << "strateji name: " << strategy.strategy_name;
+    connect(DataGenerator, &MockDataGenerator::orderUpdateGenerated, this, &MainViewModel::onOrderDataReceived);
 }
 
 void MainViewModel::onOrderDataReceived(const OrderData &order)

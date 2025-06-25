@@ -13,7 +13,6 @@ public:
     MainViewModel();
 
 public slots:
-    void onStrategyDataReceived(const class StrategyData& strategy);
     void onOrderDataReceived(const class OrderData& order);
 
 private:
