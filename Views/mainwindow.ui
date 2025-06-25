@@ -86,7 +86,7 @@
         <item>
          <widget class="QListView" name="StrategiesListView">
           <property name="selectionMode">
-           <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
+           <enum>QAbstractItemView::SelectionMode::MultiSelection</enum>
           </property>
          </widget>
         </item>
