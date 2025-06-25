@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QTimer>
-#include "StrategyData.h"
-#include "OrderData.h"
 
+struct OrderData;
+struct StrategyData;
 
 class MockDataGenerator : public QObject{
     Q_OBJECT
@@ -29,7 +29,10 @@ private:
     QTimer* m_orderTimer;
 
     int m_strategyInterval = 1000;
-    int m_orderInterval = 1000;
+    int m_orderInterval = 2500;
+
+    static int currentStrategytId;
+    static int currentOrderId;
 
 };
 

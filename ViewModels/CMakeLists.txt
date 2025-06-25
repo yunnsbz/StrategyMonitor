@@ -1,4 +1,6 @@
 add_library(ViewModels
+    MainViewModel.h
+    MainViewModel.cpp
 
 )
 
@@ -9,4 +11,5 @@ target_include_directories(ViewModels
 target_link_libraries(ViewModels
     Qt${QT_VERSION_MAJOR}::Core
     Models
+    Simulation
 )

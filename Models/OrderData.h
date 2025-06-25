@@ -1,7 +1,7 @@
 #ifndef ORDERDATA_H
 #define ORDERDATA_H
 
-struct OrderUpdate {
+struct OrderData {
     int unique_order_id;
     int unique_strategy_id;
     double price;
@@ -9,7 +9,7 @@ struct OrderUpdate {
     double filled_volume;
     enum class Side : char { Buy, Sell } side;
 
-    bool operator==(const OrderUpdate& oth) {
+    bool operator==(const OrderData& oth) {
         return unique_strategy_id == oth.unique_strategy_id && unique_order_id == oth.unique_order_id;
     }
 };

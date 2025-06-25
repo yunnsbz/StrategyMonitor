@@ -177,15 +177,51 @@
     <property name="title">
      <string>Debug</string>
     </property>
+    <addaction name="actionSimulateStrategy"/>
+    <addaction name="actionSimulateOrder"/>
+    <addaction name="actionDeactivateAutoSim"/>
+    <addaction name="actionSetAutoSimSpeed"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionHowSimulationWorks"/>
+    <addaction name="actionListAllTheFeatures"/>
    </widget>
    <addaction name="menuDebug"/>
    <addaction name="menuHelp"/>
   </widget>
+  <action name="actionSimulateStrategy">
+   <property name="text">
+    <string>Simulate Strategy</string>
+   </property>
+  </action>
+  <action name="actionSimulateOrder">
+   <property name="text">
+    <string>Simulate Order</string>
+   </property>
+  </action>
+  <action name="actionDeactivateAutoSim">
+   <property name="text">
+    <string>Deactivate Auto Sim</string>
+   </property>
+  </action>
+  <action name="actionSetAutoSimSpeed">
+   <property name="text">
+    <string>Set Auto Sim Speed</string>
+   </property>
+  </action>
+  <action name="actionHowSimulationWorks">
+   <property name="text">
+    <string>How Simulation Works</string>
+   </property>
+  </action>
+  <action name="actionListAllTheFeatures">
+   <property name="text">
+    <string>List All The Features</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

@@ -16,10 +16,10 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 add_subdirectory(Models)
 add_subdirectory(ViewModels)
 add_subdirectory(Views)
+add_subdirectory(Simulation)
 
 set(PROJECT_SOURCES
     main.cpp
-    MockDataGenerator.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -45,6 +45,7 @@ target_link_libraries(StrategyMonitor
     Models
     ViewModels
     Views
+    Simulation
 )
 
 set_target_properties(StrategyMonitor PROPERTIES
