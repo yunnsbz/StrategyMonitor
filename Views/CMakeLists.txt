@@ -2,6 +2,7 @@ add_library(Views
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    StrategyItemDelegate.h
 )
 
 target_include_directories(Views
