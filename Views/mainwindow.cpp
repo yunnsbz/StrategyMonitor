@@ -1,15 +1,13 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "MainViewModel.h"
-#include "StrategiesViewModel.h"
 #include "StrategyItemDelegate.h"
 
 MainWindow::MainWindow(QWidget *parent)
     :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    MainVM(new MainViewModel()),
-    StrategiesVM(new StrategiesViewModel())
+    MainVM(new MainViewModel())
 {
     ui->setupUi(this);
 
@@ -19,8 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     StrategyDelegate *delegate = new StrategyDelegate(this);
     ui->StrategiesListView->setItemDelegate(delegate);
 
-    // ViewModel'deki modeli View'e bağla
-    ui->StrategiesListView->setModel(StrategiesVM->model());
+    ui->StrategiesListView->setModel(MainVM->strategiesModel());
 
     connect(ui->StrategiesListView, &QListView::clicked, this, &MainWindow::OnListItemClicked);
 }
