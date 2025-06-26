@@ -88,6 +88,12 @@
           <property name="selectionMode">
            <enum>QAbstractItemView::SelectionMode::MultiSelection</enum>
           </property>
+          <property name="verticalScrollMode">
+           <enum>QAbstractItemView::ScrollMode::ScrollPerPixel</enum>
+          </property>
+          <property name="horizontalScrollMode">
+           <enum>QAbstractItemView::ScrollMode::ScrollPerPixel</enum>
+          </property>
          </widget>
         </item>
        </layout>

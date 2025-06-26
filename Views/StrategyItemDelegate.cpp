@@ -1,55 +1,101 @@
 #include "StrategyItemDelegate.h"
+
 #include <QApplication>
+#include <QPainterPath>
 
 StrategyDelegate::StrategyDelegate(QObject *parent)
-    : QStyledItemDelegate(parent)
+    :
+    QStyledItemDelegate(parent)
 {}
 
 QSize StrategyDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const {
-    return QSize(200, 50);
+    return QSize(280, 70);
 }
 
 void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+
+    // Veriler
+    QString strategyId = index.data(Qt::UserRole + 1).toString();
+    QString name = index.data(Qt::UserRole + 2).toString();
+    QString type = index.data(Qt::UserRole + 3).toString();
+    QString state = index.data(Qt::UserRole + 4).toString();
+
+    bool isSelected = option.state & QStyle::State_Selected;
+
     painter->save();
     QRect rect = option.rect;
 
+    int topSpace = 5;
+    int leftSpace = 10;
+    int rightSpace = 10;
+
+    // arkaplanı çizdirme
+    QPainterPath backgroundPath;
+    backgroundPath.addRoundedRect(rect.adjusted(5, 5, -5, -5), 5, 5);
+
+    // Arka plan
+    QColor backgroundColor(0x333333);
+    if (isSelected){
+        backgroundColor.setRgb(0x222222);
+    }
+    painter->fillPath(backgroundPath, backgroundColor);
+
+    // çerçeve
+    QPen borderPen(QColor(0x444444));
+    borderPen.setWidth(3);
+    painter->setPen(borderPen);
+    painter->drawPath(backgroundPath);
+
+    painter->setPen(QColor(0xffffff));
+
     // sol seçim ikonu:
-    QRect leftIconRect(rect.left() + 5, rect.top() + 10, 30, 30);
+    QRect leftIconRect(rect.left() + 5 + leftSpace, rect.top() + 15 + topSpace, 30, 30);
 
-    // Seçim:
-    if (option.state & QStyle::State_Selected){
-        //painter->fillRect(option.rect, option.palette.highlight());
-
-        // Sol ikon:
+    // Seçime göre ikon:
+    if (isSelected){
         QIcon icon(":/icons/Views/check_box.svg");
         icon.paint(painter, leftIconRect, Qt::AlignCenter);
     }
     else{
-        //painter->fillRect(option.rect, option.palette.base());
-
-        // Sol ikon:
         QIcon icon(":/icons/Views/check_box_blank.svg");
         icon.paint(painter, leftIconRect, Qt::AlignCenter);
     }
 
-    // Verileri al (veriler model'den gelir)
-    QString name = index.data(Qt::UserRole + 1).toString();
-    QString state = index.data(Qt::UserRole + 2).toString();
-    int strategyId = index.data(Qt::UserRole + 0).toInt(); // ID, tıklamada lazım
-
-
-
-    // Metinler (iki satır)
+    // Metinler
     QFont boldFont = option.font;
     boldFont.setBold(true);
+    boldFont.setCapitalization(QFont::Capitalize);
+    boldFont.setPixelSize(20);
+
     painter->setFont(boldFont);
-    QRect nameRect = QRect(leftIconRect.right() + 10, rect.top() + 5, rect.width() - 100, 20);
+    QRect nameRect = QRect(leftIconRect.right() + 10, rect.top() + 5 + topSpace, 100, 30);
     painter->drawText(nameRect, name);
 
-    painter->setFont(option.font);
-    QRect stateRect = QRect(leftIconRect.right() + 10, rect.top() + 25, rect.width() - 100, 20);
-    painter->drawText(stateRect, state);
+    QFont smallFont = option.font;
+    smallFont.setPointSize(7);
+    painter->setFont(smallFont);
+    QRect idRect = QRect(leftIconRect.right() + 10, rect.top() + 35 + topSpace, 40, 15);
+    painter->drawText(idRect, "id: " + strategyId);
 
+    QRect typeRect = QRect(idRect.right() + 10, rect.top() + 35 + topSpace, 80, 15);
+    painter->drawText(typeRect, type);
+
+    painter->setFont(option.font);
+
+    // sağ state ikonu
+    QRect rightIconRect(rect.right() - 35 - rightSpace, rect.top() + 15 + topSpace, 30, 30);
+
+    if(state == "Running"){
+        QIcon icon(":/icons/Views/square_running.svg");
+        icon.paint(painter, rightIconRect, Qt::AlignCenter);
+    }
+    else{
+        QIcon icon(":/icons/Views/square_paused.svg");
+        icon.paint(painter, rightIconRect, Qt::AlignCenter);
+    }
+
+    QRect stateRect = QRect(rightIconRect.left() - 45, rect.top() + 20 + topSpace, 45, 20);
+    painter->drawText(stateRect, state);
 
     painter->restore();
 }
