@@ -7,6 +7,7 @@
 #include <QAbstractItemModel>
 
 class StrategiesViewModel;
+class OrdersViewModel;
 
 class MainViewModel : public QObject{
 
@@ -16,6 +17,8 @@ public:
     MainViewModel();
 
     QAbstractItemModel* strategiesModel();
+    QAbstractItemModel* ordersModel();
+
     // eğer strateji seçili değilse ekler seçili ise çıkartır.
     void SetStrategySelected(int strategy_id);
 
@@ -27,7 +30,9 @@ private:
     MockDataGenerator* DataGenerator;
 
     StrategiesViewModel* StrategiesVM;
-    QVector<int> SelectedStrategies;
+    OrdersViewModel* OrdersVM;
+
+    QSet<int> SelectedStrategies;
 };
 
 #endif // MAINVIEWMODEL_H

@@ -3,6 +3,9 @@ add_library(ViewModels
     MainViewModel.cpp
     StrategiesViewModel.h
     StrategiesViewModel.cpp
+    OrdersViewModel.h
+    OrdersViewModel.cpp
+
 
 )
 

@@ -9,7 +9,8 @@
 MainViewModel::MainViewModel()
     :
     DataGenerator(new MockDataGenerator()),
-    StrategiesVM(new StrategiesViewModel())
+    StrategiesVM(new StrategiesViewModel()),
+    OrdersVM(new OrdersViewModel())
 {
     connect(DataGenerator, &MockDataGenerator::strategyUpdateGenerated, this, &MainViewModel::onStrategyDataReceived);
     connect(DataGenerator, &MockDataGenerator::orderUpdateGenerated, this, &MainViewModel::onOrderDataReceived);
@@ -20,14 +21,14 @@ QAbstractItemModel* MainViewModel::strategiesModel()
     return StrategiesVM->model();
 }
 
+QAbstractItemModel *MainViewModel::ordersModel()
+{
+    return OrdersVM->model();
+}
+
 void MainViewModel::SetStrategySelected(int strategy_id)
 {
-    if(SelectedStrategies.contains(strategy_id)){
-        SelectedStrategies.removeOne(strategy_id);
-    }
-    else{
-        SelectedStrategies.append(strategy_id);
-    }
+    SelectedStrategies.insert(strategy_id);
 }
 
 void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)
@@ -37,5 +38,5 @@ void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)
 
 void MainViewModel::onOrderDataReceived(const OrderData &order)
 {
-
+    OrdersVM->addOrder(order);
 }

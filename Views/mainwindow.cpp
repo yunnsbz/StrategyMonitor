@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->StrategiesListView->setModel(MainVM->strategiesModel());
 
+    ui->OrdersTableView->setModel(MainVM->ordersModel());
+
+    // liste itemine tıklama:
     connect(ui->StrategiesListView, &QListView::clicked, this, &MainWindow::OnListItemClicked);
 }
 
