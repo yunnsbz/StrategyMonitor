@@ -21,6 +21,7 @@ void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     QString state = index.data(Qt::UserRole + 4).toString();
 
     bool isSelected = option.state & QStyle::State_Selected;
+    bool isMouseOver = option.state & QStyle::State_MouseOver;
 
     painter->save();
     QRect rect = option.rect;
@@ -34,9 +35,15 @@ void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     backgroundPath.addRoundedRect(rect.adjusted(5, 5, -5, -5), 5, 5);
 
     // Arka plan
-    QColor backgroundColor(0x333333);
+    QColor backgroundColor(0x1E1E1E);
     if (isSelected){
-        backgroundColor.setRgb(0x222222);
+        if(isMouseOver){
+            backgroundColor.setRgb(0x3B4C66);
+        }
+        else backgroundColor.setRgb(0x303F55);
+    }
+    else if(isMouseOver){
+        backgroundColor.setRgb(0x2A2A2A);
     }
     painter->fillPath(backgroundPath, backgroundColor);
 

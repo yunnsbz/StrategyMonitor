@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     // Stil listesi: "Fusion", "Windows", "WindowsVista"
-    //a.setStyle(QStyleFactory::create("Fusion"));
+    //a.setStyle(QStyleFactory::create("WindowsVista"));
 
     MainWindow w;
     w.show();
