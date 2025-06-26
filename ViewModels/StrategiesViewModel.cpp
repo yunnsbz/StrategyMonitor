@@ -15,9 +15,6 @@ StrategiesViewModel::StrategiesViewModel(QObject *parent)
 
 void StrategiesViewModel::onStrategyDataReceived(const StrategyData &strategy)
 {
-    qDebug() << "--------strategy--------";
-    qDebug() << "strateji name: " << strategy.strategy_name;
-
     m_model->addStrategy(strategy);
 }
 
