@@ -12,8 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->splitter->setSizes({400,600});
-    ui->splitter->widget(0)->setMinimumWidth(280);
-    // Delegate: özel görünüm
+    ui->splitter->widget(0)->setMinimumWidth(300);
+
+    // liste item Delegate:
     StrategyDelegate *delegate = new StrategyDelegate(this);
     ui->StrategiesListView->setItemDelegate(delegate);
 
@@ -29,5 +30,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::OnListItemClicked(const QModelIndex& index)
 {
-    qDebug() << index.data(Qt::UserRole + 1);
+    MainVM->SetStrategySelected(index.data(Qt::UserRole+1).toInt());
 }

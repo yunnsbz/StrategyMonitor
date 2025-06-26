@@ -16,6 +16,8 @@ public:
     MainViewModel();
 
     QAbstractItemModel* strategiesModel();
+    // eğer strateji seçili değilse ekler seçili ise çıkartır.
+    void SetStrategySelected(int strategy_id);
 
 public slots:
     void onOrderDataReceived(const class OrderData& order);
@@ -25,6 +27,7 @@ private:
     MockDataGenerator* DataGenerator;
 
     StrategiesViewModel* StrategiesVM;
+    QVector<int> SelectedStrategies;
 };
 
 #endif // MAINVIEWMODEL_H

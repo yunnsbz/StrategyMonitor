@@ -75,12 +75,13 @@ void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     boldFont.setPixelSize(20);
 
     painter->setFont(boldFont);
-    QRect nameRect = QRect(leftIconRect.right() + 10, rect.top() + 5 + topSpace, 100, 30);
+    QRect nameRect = QRect(leftIconRect.right() + 10, rect.top() + 5 + topSpace, 110, 30);
     painter->drawText(nameRect, name);
 
     QFont smallFont = option.font;
     smallFont.setPointSize(7);
     painter->setFont(smallFont);
+
     QRect idRect = QRect(leftIconRect.right() + 10, rect.top() + 35 + topSpace, 40, 15);
     painter->drawText(idRect, "id: " + strategyId);
 

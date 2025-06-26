@@ -15,9 +15,6 @@ public:
 
     void addStrategy(const class StrategyData& data);
 
-public slots:
-
-
 private:
     StrategyModel* m_model;
 };

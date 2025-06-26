@@ -2,9 +2,6 @@
 #include "StrategyData.h"
 #include "StrategyModel.h"
 
-#include <QDebug>
-
-
 StrategiesViewModel::StrategiesViewModel(QObject *parent)
     :
     QObject(parent),
