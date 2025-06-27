@@ -61,7 +61,6 @@ bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
 {
     // Filtre aktif değilse veya seçili ID yoksa tüm satırları kabul et
     if (!m_filterActive || m_selectedStrategyIds.isEmpty()) {
-        qDebug() << "Filtre aktif değil veya seçili ID yok. tüm satırları kabul et";
         return true;
     }
 
@@ -77,7 +76,7 @@ bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
         return false;
     }
 
+    // filtreleme başarılı
     OrderData order = dataVariant.value<OrderData>();
-    qDebug() << "filtreleme başarılı";
     return m_selectedStrategyIds.contains(order.unique_strategy_id);
 }
