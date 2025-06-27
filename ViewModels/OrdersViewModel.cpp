@@ -16,11 +16,16 @@ QAbstractItemModel* OrdersViewModel::model() {
     return m_filteredOrderModel;
 }
 
+OrderModel *OrdersViewModel::orderModel()
+{
+    return m_model;
+}
+
 OrderFilterProxyModel *OrdersViewModel::filter()
 {
     return m_filteredOrderModel;
 }
 
-void OrdersViewModel::addOrder(const OrderData& data, QString StrategyName) {
-    m_model->addOrder(data, StrategyName);
+void OrdersViewModel::addOrder(const OrderData& data) {
+    m_model->addOrder(data);
 }

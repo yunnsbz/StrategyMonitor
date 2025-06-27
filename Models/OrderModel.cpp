@@ -31,7 +31,7 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole) {
         switch (static_cast<Column>(index.column())) {
             case StrategyName:
-                return m_strategyNameCache[order.unique_strategy_id];
+                return m_nameResolver(order.unique_strategy_id);
             case OrderId:
                 return QString::number(order.unique_order_id).rightJustified(3, '0');
             case BuySell:
@@ -75,6 +75,11 @@ QVariant OrderModel::headerData(int section, Qt::Orientation orientation, int ro
     return QAbstractTableModel::headerData(section, orientation, role);
 }
 
+void OrderModel::setStrategyNameResolver(StrategyNameResolver resolver)
+{
+    m_nameResolver = resolver;
+}
+
 void OrderModel::loadOrders(const QList<OrderData> &orders)
 {
     beginResetModel();
@@ -82,13 +87,12 @@ void OrderModel::loadOrders(const QList<OrderData> &orders)
     endResetModel();
 }
 
-void OrderModel::addOrder(const OrderData &order, QString strategyName)
+void OrderModel::addOrder(const OrderData &order)
 {
     int newRow = m_orders.count();
     beginInsertRows(QModelIndex(), newRow, newRow);
     m_orders.append(order);
     endInsertRows();
-    m_strategyNameCache[order.unique_strategy_id] = strategyName;
 }
 
 void OrderModel::updateOrder(const OrderData &updatedOrder)

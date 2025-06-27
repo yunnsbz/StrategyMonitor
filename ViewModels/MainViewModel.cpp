@@ -3,6 +3,7 @@
 #include "StrategyData.h"
 #include "StrategiesViewModel.h"
 #include "OrdersViewModel.h"
+#include "OrderModel.h"
 #include "OrderFilterProxyModel.h"
 
 
@@ -16,6 +17,11 @@ MainViewModel::MainViewModel()
 {
     connect(DataGenerator, &MockDataGenerator::strategyUpdateGenerated, this, &MainViewModel::onStrategyDataReceived);
     connect(DataGenerator, &MockDataGenerator::orderUpdateGenerated, this, &MainViewModel::onOrderDataReceived);
+
+    OrdersVM->orderModel()->setStrategyNameResolver([this](int strategyId) -> QString {
+        const StrategyData strategy = StrategiesVM->getStrategy(strategyId);
+        return strategy.strategy_name.isEmpty() ? QString("[Unknown]") : strategy.strategy_name;
+    });
 }
 
 QAbstractItemModel* MainViewModel::strategiesModel()
@@ -44,6 +50,5 @@ void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)
 
 void MainViewModel::onOrderDataReceived(const OrderData &order)
 {
-    auto strategy = StrategiesVM->getStrategy(order.unique_strategy_id);
-    OrdersVM->addOrder(order, strategy.strategy_name);
+    OrdersVM->addOrder(order);
 }

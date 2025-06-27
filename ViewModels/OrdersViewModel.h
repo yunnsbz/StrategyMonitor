@@ -14,9 +14,10 @@ public:
     explicit OrdersViewModel(QObject *parent = nullptr);
 
     QAbstractItemModel* model();
+    OrderModel* orderModel();
     OrderFilterProxyModel* filter();
 
-    void addOrder(const class OrderData& data, QString StrategyName);
+    void addOrder(const class OrderData& data);
 
 private:
     OrderModel* m_model;
