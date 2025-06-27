@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QModelIndex>
+#include <QItemSelection>
+#include <QListView>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,7 +22,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void OnListItemClicked(const QModelIndex& index);
+    void OnMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected);
 
 
 private:
