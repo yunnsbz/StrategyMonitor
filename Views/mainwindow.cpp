@@ -23,18 +23,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->OrdersTableView->setModel(MainVM->ordersModel());
 
     // liste itemine tıklama:
-    //connect(ui->StrategiesListView, &QListView::clicked, this, &MainWindow::OnListItemClicked);
     connect(ui->StrategiesListView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::OnMultipleListItemClicked);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::OnListItemClicked(const QModelIndex& index)
-{
-    MainVM->SetStrategySelected(index.data(Qt::UserRole+1).toInt());
 }
 
 void MainWindow::OnMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected)
