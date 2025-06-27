@@ -79,7 +79,7 @@ OrderData MockDataGenerator::createOrder()
     double filled_volume = QRandomGenerator::global()->generateDouble() * active_volume;
 
     int order_id = 0;
-    if(currentStrategytId > 0) order_id = QRandomGenerator::global()->bounded(0,currentStrategytId);
+    if(currentStrategytId > 0) order_id = QRandomGenerator::global()->bounded(1,currentStrategytId+1);
 
     OrderData data;
     data.unique_strategy_id = order_id;

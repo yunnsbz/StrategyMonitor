@@ -15,6 +15,7 @@ public:
     void clearStrategyFilter();
 
 protected:
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
 private:

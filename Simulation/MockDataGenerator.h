@@ -28,8 +28,8 @@ private:
     QTimer* m_strategyTimer;
     QTimer* m_orderTimer;
 
-    int m_strategyInterval = 1000;
-    int m_orderInterval = 2500;
+    int m_strategyInterval = 800;
+    int m_orderInterval = 1600;
 
     static int currentStrategytId;
     static int currentOrderId;
