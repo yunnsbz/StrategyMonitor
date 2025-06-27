@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->splitter->setSizes({400,600});
-    ui->splitter->widget(0)->setMinimumWidth(300);
+    ui->splitter->widget(0)->setMinimumWidth(320);
 
     // liste item Delegate:
     StrategyDelegate *delegate = new StrategyDelegate(this);

@@ -23,7 +23,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
@@ -74,13 +74,6 @@
             </property>
            </spacer>
           </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_DeselectAll">
-            <property name="text">
-             <string>Deselect All</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item>
@@ -95,6 +88,31 @@
            <enum>QAbstractItemView::ScrollMode::ScrollPerPixel</enum>
           </property>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="pushButton_DeselectAll">
+            <property name="text">
+             <string>Deselect All</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_ShowRunning">
+            <property name="text">
+             <string>Show Only Running</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_ShowPaused">
+            <property name="text">
+             <string>Show Only Paused</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
