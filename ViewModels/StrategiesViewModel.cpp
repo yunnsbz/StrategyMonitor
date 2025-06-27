@@ -17,3 +17,8 @@ QAbstractItemModel* StrategiesViewModel::model() const {
 void StrategiesViewModel::addStrategy(const StrategyData& data) {
     m_model->addStrategy(data);
 }
+
+StrategyData StrategiesViewModel::getStrategy(int targetId) const
+{
+    return m_model->getStrategy(targetId);
+}

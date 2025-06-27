@@ -26,7 +26,7 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
     void loadOrders(const QList<OrderData> &orders);
-    void addOrder(const OrderData &order);
+    void addOrder(const OrderData &order, QString strategyName);
     void updateOrder(const OrderData &order); // unique_order_id ile bulup günceller
     void clearOrders();
 

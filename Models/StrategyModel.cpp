@@ -45,8 +45,14 @@ void StrategyModel::addStrategy(const StrategyData &strategy) {
     endInsertRows();
 }
 
-StrategyData StrategyModel::getStrategy(int row) const {
-    if (row >= 0 && row < m_strategies.size())
-        return m_strategies.at(row);
+StrategyData StrategyModel::getStrategy(int targetId) const {
+    auto it = std::find_if(m_strategies.begin(), m_strategies.end(),
+        [targetId](const StrategyData& strategy) {
+            return strategy.unique_strategy_id == targetId;
+        });
+
+    if (it != m_strategies.end()) {
+        return *it; // Bulunan OrderData'yı döndür
+    }
     return {};
 }

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
+#include <QAbstractProxyModel>
 
 class OrderModel;
 class OrderFilterProxyModel;
@@ -13,11 +14,13 @@ public:
     explicit OrdersViewModel(QObject *parent = nullptr);
 
     QAbstractItemModel* model();
+    OrderFilterProxyModel* filter();
 
-    void addOrder(const class OrderData& data);
+    void addOrder(const class OrderData& data, QString StrategyName);
 
 private:
     OrderModel* m_model;
+    OrderFilterProxyModel* m_filteredOrderModel;
 };
 
 #endif // ORDERSVIEWMODEL_H

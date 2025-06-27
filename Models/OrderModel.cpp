@@ -2,7 +2,8 @@
 
 
 OrderModel::OrderModel(QObject *parent)
-    : QAbstractTableModel(parent)
+    :
+    QAbstractTableModel(parent)
 {
 }
 
@@ -30,8 +31,7 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole) {
         switch (static_cast<Column>(index.column())) {
             case StrategyName:
-                // TODO: Strateji adını al. şimdilik sadece id gösteriyo
-                return QString("Strat %1").arg(order.unique_strategy_id); // Geçici
+                return m_strategyNameCache[order.unique_strategy_id];
             case OrderId:
                 return QString::number(order.unique_order_id).rightJustified(3, '0');
             case BuySell:
@@ -44,6 +44,9 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
             default:
                 return QVariant();
         }
+    }
+    else if (role == Qt::UserRole) {
+        return QVariant::fromValue(order); // OrderData nesnesini QVariant olarak döndür
     }
     return QVariant();
 }
@@ -79,12 +82,13 @@ void OrderModel::loadOrders(const QList<OrderData> &orders)
     endResetModel();
 }
 
-void OrderModel::addOrder(const OrderData &order)
+void OrderModel::addOrder(const OrderData &order, QString strategyName)
 {
     int newRow = m_orders.count();
     beginInsertRows(QModelIndex(), newRow, newRow);
     m_orders.append(order);
     endInsertRows();
+    m_strategyNameCache[order.unique_strategy_id] = strategyName;
 }
 
 void OrderModel::updateOrder(const OrderData &updatedOrder)
@@ -97,8 +101,6 @@ void OrderModel::updateOrder(const OrderData &updatedOrder)
             return;
         }
     }
-    // Eğer order bulunamazsa, yenisini ekle:
-    addOrder(updatedOrder);
 }
 
 void OrderModel::clearOrders()

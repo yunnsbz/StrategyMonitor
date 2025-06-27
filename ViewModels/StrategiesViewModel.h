@@ -15,6 +15,8 @@ public:
 
     void addStrategy(const class StrategyData& data);
 
+    StrategyData getStrategy(int targetId) const;
+
 private:
     StrategyModel* m_model;
 };

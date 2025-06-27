@@ -2,6 +2,8 @@
 #include "OrderData.h"
 #include "StrategyData.h"
 #include "StrategiesViewModel.h"
+#include "OrdersViewModel.h"
+#include "OrderFilterProxyModel.h"
 
 
 #include <QDebug>
@@ -28,7 +30,11 @@ QAbstractItemModel *MainViewModel::ordersModel()
 
 void MainViewModel::SetStrategySelected(int strategy_id)
 {
-    SelectedStrategies.insert(strategy_id);
+    if(SelectedStrategies.contains(strategy_id)){
+        SelectedStrategies.remove(strategy_id);
+    }
+    else SelectedStrategies.insert(strategy_id);
+    OrdersVM->filter()->setSelectedStrategyIds(SelectedStrategies);
 }
 
 void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)
@@ -38,5 +44,6 @@ void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)
 
 void MainViewModel::onOrderDataReceived(const OrderData &order)
 {
-    OrdersVM->addOrder(order);
+    auto strategy = StrategiesVM->getStrategy(order.unique_strategy_id);
+    OrdersVM->addOrder(order, strategy.strategy_name);
 }

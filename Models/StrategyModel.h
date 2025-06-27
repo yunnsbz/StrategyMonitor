@@ -22,7 +22,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void addStrategy(const StrategyData &strategy);
-    StrategyData getStrategy(int row) const;
+    StrategyData getStrategy(int targetId) const;
 
 private:
     QVector<StrategyData> m_strategies;
