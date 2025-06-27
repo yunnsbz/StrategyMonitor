@@ -28,6 +28,11 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
 
     const OrderData &order = m_orders.at(index.row());
 
+
+    if (role == Qt::TextAlignmentRole) {
+        return Qt::AlignCenter;
+    }
+
     if (role == Qt::DisplayRole) {
         switch (static_cast<Column>(index.column())) {
             case StrategyName:
