@@ -1,4 +1,5 @@
 #include "StrategyItemDelegate.h"
+#include "strategy_model_roles.h"
 
 #include <QApplication>
 #include <QPainterPath>
@@ -15,10 +16,10 @@ QSize StrategyDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex
 void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
 
     // Veriler
-    QString strategyId = index.data(Qt::UserRole + 1).toString();
-    QString name = index.data(Qt::UserRole + 2).toString();
-    QString type = index.data(Qt::UserRole + 3).toString();
-    QString state = index.data(Qt::UserRole + 4).toString();
+    QString strategyId = index.data(StrategyRoles::IdRole).toString();
+    QString name = index.data(StrategyRoles::NameRole).toString();
+    QString type = index.data(StrategyRoles::TypeRole).toString();
+    QString state = index.data(StrategyRoles::StateRole).toString();
 
     bool isSelected = option.state & QStyle::State_Selected;
     bool isMouseOver = option.state & QStyle::State_MouseOver;

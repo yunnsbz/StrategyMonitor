@@ -10,13 +10,6 @@ class StrategyModel : public QAbstractListModel{
 public:
     StrategyModel(QObject *parent = nullptr);
 
-    enum StrategyRoles {
-        IdRole = Qt::UserRole + 1,
-        NameRole,
-        TypeRole,
-        StateRole
-    };
-
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;

@@ -17,6 +17,7 @@ add_subdirectory(Models)
 add_subdirectory(ViewModels)
 add_subdirectory(Views)
 add_subdirectory(Simulation)
+add_subdirectory(Shared)
 
 set(PROJECT_SOURCES
     main.cpp
@@ -43,10 +44,7 @@ endif()
 target_link_libraries(StrategyMonitor
     PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
-    Models
-    ViewModels
     Views
-    Simulation
 )
 
 set_target_properties(StrategyMonitor PROPERTIES

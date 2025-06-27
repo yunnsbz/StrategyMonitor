@@ -15,4 +15,5 @@ target_include_directories(Models
 
 target_link_libraries(Models
     Qt${QT_VERSION_MAJOR}::Core
+    Shared
 )

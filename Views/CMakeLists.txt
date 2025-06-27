@@ -15,4 +15,5 @@ target_link_libraries(Views
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Gui
     ViewModels
+    Shared
 )

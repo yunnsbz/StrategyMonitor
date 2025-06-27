@@ -1,5 +1,5 @@
 #include "StrategyModel.h"
-
+#include "strategy_model_roles.h"
 
 StrategyModel::StrategyModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -17,13 +17,13 @@ QVariant StrategyModel::data(const QModelIndex &index, int role) const {
     const StrategyData &s = m_strategies.at(index.row());
 
     switch (role) {
-    case IdRole:
+    case StrategyRoles::IdRole:
         return s.unique_strategy_id;
-    case NameRole:
+    case StrategyRoles::NameRole:
         return s.strategy_name;
-    case TypeRole:
+    case StrategyRoles::TypeRole:
         return (s.type == StrategyData::Type::StrategyType1 ? "StrategyType1" : "StrategyType2");
-    case StateRole:
+    case StrategyRoles::StateRole:
         return (s.state == StrategyData::State::Running ? "Running" : "Paused");
     default:
         return QVariant();
@@ -32,10 +32,10 @@ QVariant StrategyModel::data(const QModelIndex &index, int role) const {
 
 QHash<int, QByteArray> StrategyModel::roleNames() const {
     return {
-        { IdRole, "unique_strategy_id" },
-        { NameRole, "strategy_name" },
-        { TypeRole, "type" },
-        { StateRole, "state" }
+        { StrategyRoles::IdRole, "unique_strategy_id" },
+        { StrategyRoles::NameRole, "strategy_name" },
+        { StrategyRoles::TypeRole, "type" },
+        { StrategyRoles::StateRole, "state" }
     };
 }
 
