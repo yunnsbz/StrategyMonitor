@@ -36,7 +36,6 @@ public:
 
 private:
     QList<OrderData> m_orders;
-    QHash<int, QString> m_strategyNameCache; // Strateji ID'den isme map
 
     int ColumnCount = 5;
 
