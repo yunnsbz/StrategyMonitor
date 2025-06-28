@@ -88,11 +88,11 @@ void MainWindow::onVolumeFilterRequested()
 
     if (volumeDialog->exec() == QDialog::Accepted) {
         if (volumeDialog->wasClearFilterPressed()) {
-           // MainVM->
+            MainVM->clearVolumeFilter();
         } else {
             double min = volumeDialog->minValue();
             double max = volumeDialog->maxValue();
-            //MainVM->
+            MainVM->setVolumeFilter(min, max);
         }
     }
 }

@@ -58,6 +58,16 @@ void MainViewModel::clearPriceFilter()
     OrdersVM->filter()->clearPriceFilter();
 }
 
+void MainViewModel::setVolumeFilter(double min, double max)
+{
+    OrdersVM->filter()->setVolumeFilter(min, max);
+}
+
+void MainViewModel::clearVolumeFilter()
+{
+    OrdersVM->filter()->clearVolumeFilter();
+}
+
 void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)
 {
     StrategiesVM->addStrategy(strategy);

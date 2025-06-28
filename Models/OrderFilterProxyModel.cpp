@@ -65,6 +65,20 @@ QPair<double, double> OrderFilterProxyModel::ordersPriceRange() const
     return {minPrice, maxPrice};
 }
 
+void OrderFilterProxyModel::setVolumeFilter(double min, double max)
+{
+    m_volumeFilter.min = min;
+    m_volumeFilter.max = max;
+    m_volumeFilter.isActive = true;
+    invalidateFilter();
+}
+
+void OrderFilterProxyModel::clearVolumeFilter()
+{
+    m_volumeFilter.isActive = false;
+    invalidateFilter();
+}
+
 void OrderFilterProxyModel::clearPriceFilter()
 {
     m_priceFilter.isActive = false;
@@ -122,7 +136,8 @@ bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
 
     return
         strategyFilter(order) &&
-        priceFilter(order);
+        priceFilter(order) &&
+        volumeFilter(order);
 
 }
 
@@ -145,4 +160,16 @@ bool OrderFilterProxyModel::priceFilter(OrderData order) const
     }
 
     return order.price <= m_priceFilter.max && order.price >= m_priceFilter.min;
+}
+
+bool OrderFilterProxyModel::volumeFilter(OrderData order) const
+{
+    // Filtre aktif değilse
+    if (!m_volumeFilter.isActive) {
+        return true;
+    }
+
+    double persentage = (order.filled_volume / order.active_volume) * 100;
+
+    return persentage <= m_volumeFilter.max && persentage >= m_volumeFilter.min;
 }
