@@ -1,18 +1,18 @@
 #ifndef STRATEGY_MODEL_ROLES_H
 #define STRATEGY_MODEL_ROLES_H
 
-#include <QObject> // Q_NAMESPACE için gerekli
+#include <QObject>
 
-namespace StrategyRoles { // Namespace kullanarak organize etmek en iyisidir
+namespace StrategyRoles {
     Q_NAMESPACE
 
     enum Role {
-        IdRole = Qt::UserRole + 1,
-        NameRole,
-        TypeRole,
-        StateRole
+        IdRole      = Qt::UserRole + 1,
+        NameRole    = Qt::UserRole + 2,
+        TypeRole    = Qt::UserRole + 3,
+        StateRole   = Qt::UserRole + 4
     };
-    Q_ENUM_NS(Role) // Bu enum'u Qt'nin meta sistemine kaydeder
+    Q_ENUM_NS(Role)
 }
 
 #endif // STRATEGY_MODEL_ROLES_H

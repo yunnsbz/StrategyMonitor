@@ -47,7 +47,7 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
                 return QString("%1/%2")
                     .arg(QString::number(order.filled_volume, 'f', 0), QString::number(order.active_volume, 'f', 0));
             default:
-                return QVariant();
+                return QVariant::fromValue(order);
         }
     }
     else if (role == Qt::UserRole) {
