@@ -4,5 +4,7 @@
         <file>Views/check_box_blank.svg</file>
         <file>Views/square_paused.svg</file>
         <file>Views/square_running.svg</file>
+        <file>Views/buy-icon.png</file>
+        <file>Views/sell-icon.png</file>
     </qresource>
 </RCC>

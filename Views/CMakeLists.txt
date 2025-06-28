@@ -5,6 +5,8 @@ add_library(Views
     StrategyItemDelegate.cpp
     StrategyItemDelegate.h
     filterdialog.h filterdialog.cpp filterdialog.ui
+    OrderTypeDelegate.h
+    OrderTypeDelegate.cpp
 
 )
 

@@ -43,6 +43,18 @@ void MainViewModel::SetStrategySelected(int strategy_id)
     OrdersVM->filter()->setSelectedStrategyIds(SelectedStrategies);
 }
 
+QSet<QString> MainViewModel::getStrategiesSelected()
+{
+    QSet<QString> selectedNames;
+    for(int id : SelectedStrategies){
+        QString name = StrategiesVM->getStrategy(id).strategy_name;
+        if(!name.isEmpty()){
+            selectedNames.insert(name);
+        }
+    }
+    return selectedNames;
+}
+
 void MainViewModel::setPriceFilter(double min, double max)
 {
     OrdersVM->filter()->setPriceFilter(min, max);

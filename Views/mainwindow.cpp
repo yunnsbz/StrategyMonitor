@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "MainViewModel.h"
 #include "StrategyItemDelegate.h"
+#include "OrderTypeDelegate.h"
 #include "filterdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -20,11 +21,13 @@ MainWindow::MainWindow(QWidget *parent)
     // liste item Delegate:
     StrategyDelegate *delegate = new StrategyDelegate(this);
     ui->StrategiesListView->setItemDelegate(delegate);
-
     ui->StrategiesListView->setModel(MainVM->strategiesModel());
 
     ui->OrdersTableView->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->OrdersTableView->setModel(MainVM->ordersModel());
+
+    OrderTypeDelegate *orderTypeDelegate = new OrderTypeDelegate(this);
+    ui->OrdersTableView->setItemDelegateForColumn(SIDE_COLUMN_INDEX, orderTypeDelegate);
 
     // liste itemine tıklama:
     connect(ui->StrategiesListView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::OnMultipleListItemClicked);
@@ -57,6 +60,8 @@ void MainWindow::OnMultipleListItemClicked(const QItemSelection &selected, const
     for(auto &index : selectedIndexes){
         MainVM->SetStrategySelected(index.data(Qt::UserRole+1).toInt());
     }
+
+    onSelectedStrategiesChanged();
 }
 
 void MainWindow::onPriceFilterRequested()
@@ -94,5 +99,25 @@ void MainWindow::onVolumeFilterRequested()
             double max = volumeDialog->maxValue();
             MainVM->setVolumeFilter(min, max);
         }
+    }
+}
+
+void MainWindow::onSelectedStrategiesChanged()
+{
+    auto names = MainVM->getStrategiesSelected();
+
+    if(names.isEmpty()){
+        ui->label_selected_strategies->setText("(Showing All Orders)");
+    }
+    else{
+        QString output = "(";
+        for(auto name : names)
+        {
+            output += name + ", ";
+        }
+        // sonda virgül varsa kaldır
+        if(output.endsWith(", ")){ output.removeLast(); output.removeLast(); }
+        output += ")";
+        ui->label_selected_strategies->setText(output);
     }
 }

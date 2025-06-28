@@ -27,6 +27,7 @@ private slots:
 
     void onPriceFilterRequested();
     void onVolumeFilterRequested();
+    void onSelectedStrategiesChanged();
 
 
 private:
@@ -37,6 +38,7 @@ private:
     FilterDialog* priceDialog;
     FilterDialog* volumeDialog;
 
+    static constexpr int SIDE_COLUMN_INDEX = 2;
     static constexpr int PRICE_COLUMN_INDEX = 3;
     static constexpr int VOLUME_COLUMN_INDEX = 4;
     double m_currentPriceFilterMin = 0.0;

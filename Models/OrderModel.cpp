@@ -12,7 +12,7 @@ OrderModel::OrderModel(QObject *parent)
 const QMap<int, QString> OrderModel::kHeaderLabels {
     { OrderRoles::StrategyNameRole, "Strategy Name" },
     { OrderRoles::OrderIdRole,      "Order ID" },
-    { OrderRoles::BuySellRole,      "Buy/Sell" },
+    { OrderRoles::BuySellRole,      "Side" },
     { OrderRoles::PriceRole,        "Price" },
     { OrderRoles::VolumeRole,       "Volume (Filled/Active)" }
 };
@@ -63,9 +63,10 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
         case OrderRoles::PriceRole:
             return QString::number(order.price, 'f', 2) + "$";
         case OrderRoles::VolumeRole:
-            return QString("%1/%2")
+            return QString("%1/%2        \%%3")
                 .arg(QString::number(order.filled_volume, 'f', 0),
-                     QString::number(order.active_volume, 'f', 0));
+                     QString::number(order.active_volume, 'f', 0),
+                     QString::number((order.filled_volume/order.active_volume)*100, 'f', 2));
         case OrderRoles::RawDataRole:
             return QVariant::fromValue(order);
         default:

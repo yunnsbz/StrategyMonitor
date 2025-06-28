@@ -23,6 +23,7 @@ public:
 
     // eğer strateji seçili değilse ekler seçili ise çıkartır.
     void SetStrategySelected(int strategy_id);
+    QSet<QString> getStrategiesSelected();
 
     void setPriceFilter(double min, double max);
     QPair<double,double> ordersPriceRange();
