@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "MainViewModel.h"
 #include "StrategyItemDelegate.h"
+#include "filterdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     :
@@ -20,10 +21,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->StrategiesListView->setModel(MainVM->strategiesModel());
 
+    ui->OrdersTableView->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->OrdersTableView->setModel(MainVM->ordersModel());
 
     // liste itemine tıklama:
     connect(ui->StrategiesListView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::OnMultipleListItemClicked);
+
+    connect(ui->OrdersTableView->horizontalHeader(), &QHeaderView::customContextMenuRequested,
+            this, [this](const QPoint& pos) {
+        int column = ui->OrdersTableView->horizontalHeader()->logicalIndexAt(pos);
+        if (column == PRICE_COLUMN_INDEX) {
+            onPriceFilterRequested();
+        }
+    });
 }
 
 MainWindow::~MainWindow()
@@ -34,11 +44,31 @@ MainWindow::~MainWindow()
 void MainWindow::OnMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected)
 {
     QModelIndexList deselectedIndexes = deselected.indexes();
-    for(auto index : deselectedIndexes){
+    for(auto &index : deselectedIndexes){
         MainVM->SetStrategySelected(index.data(Qt::UserRole+1).toInt());
     }
     QModelIndexList selectedIndexes = selected.indexes();
-    for(auto index : selectedIndexes){
+    for(auto &index : selectedIndexes){
         MainVM->SetStrategySelected(index.data(Qt::UserRole+1).toInt());
+    }
+}
+
+void MainWindow::onPriceFilterRequested()
+{
+    FilterDialog dialog(this);
+
+    auto priceRange = MainVM->ordersPriceRange();
+    dialog.setRange(priceRange.first, priceRange.second);
+
+    dialog.setInfoText("Set Price Range Between Min and Max values:");
+
+    if (dialog.exec() == QDialog::Accepted) {
+        if (dialog.wasClearFilterPressed()) {
+            MainVM->clearPriceFilter();  // veya disable()
+        } else {
+            double min = dialog.minValue();
+            double max = dialog.maxValue();
+            MainVM->setPriceFilter(min, max);
+        }
     }
 }

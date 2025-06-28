@@ -21,14 +21,21 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-public slots:
+private slots:
     void OnMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected);
+
+    void onPriceFilterRequested();
 
 
 private:
     Ui::MainWindow *ui;
 
     MainViewModel* MainVM;
+
+    static constexpr int PRICE_COLUMN_INDEX = 3;
+    double m_currentPriceFilterMin = 0.0;
+    double m_currentPriceFilterMax = 0.0;
+    bool m_priceFilterActive = false;
 
 };
 #endif // MAINWINDOW_H

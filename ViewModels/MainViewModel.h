@@ -19,8 +19,12 @@ public:
     QAbstractItemModel* strategiesModel();
     QAbstractItemModel* ordersModel();
 
+    // filtreler:
     // eğer strateji seçili değilse ekler seçili ise çıkartır.
     void SetStrategySelected(int strategy_id);
+    void setPriceFilter(double min, double max);
+    QPair<double,double> ordersPriceRange();
+    void clearPriceFilter();
 
 public slots:
     void onOrderDataReceived(const class OrderData& order);
