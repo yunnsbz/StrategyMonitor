@@ -21,10 +21,22 @@ public:
     void setInfoText(QString text);
 
     void setRange(double min, double max);
-    void setInitialValues(double min, double max);
+
+    bool wasClearFilterPressed() const;
+
+private:
+    void setInitialValues();
 
 private:
     Ui::FilterDialog *ui;
+
+    bool m_filterCleared;
+    bool m_filterActive;
+
+    double minVal;
+    double maxVal;
+    double storedMinVal;
+    double storedMaxVal;
 };
 
 #endif // FILTERDIALOG_H
