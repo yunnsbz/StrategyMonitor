@@ -35,7 +35,11 @@ MainWindow::MainWindow(QWidget *parent)
         if (column == PRICE_COLUMN_INDEX) {
             onPriceFilterRequested();
         }
+        else if(column == VOLUME_COLUMN_INDEX){
+            onVolumeFilterRequested();
+        }
     });
+
 }
 
 MainWindow::~MainWindow()
@@ -67,11 +71,28 @@ void MainWindow::onPriceFilterRequested()
 
     if (priceDialog->exec() == QDialog::Accepted) {
         if (priceDialog->wasClearFilterPressed()) {
-            MainVM->clearPriceFilter();  // veya disable()
+            MainVM->clearPriceFilter();
         } else {
             double min = priceDialog->minValue();
             double max = priceDialog->maxValue();
             MainVM->setPriceFilter(min, max);
+        }
+    }
+}
+
+void MainWindow::onVolumeFilterRequested()
+{
+    volumeDialog->setRange(0, 100, true);
+
+    volumeDialog->setInfoText("Set Volume persentage:");
+
+    if (volumeDialog->exec() == QDialog::Accepted) {
+        if (volumeDialog->wasClearFilterPressed()) {
+           // MainVM->
+        } else {
+            double min = volumeDialog->minValue();
+            double max = volumeDialog->maxValue();
+            //MainVM->
         }
     }
 }

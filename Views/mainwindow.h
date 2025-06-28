@@ -26,6 +26,7 @@ private slots:
     void OnMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected);
 
     void onPriceFilterRequested();
+    void onVolumeFilterRequested();
 
 
 private:
@@ -37,6 +38,7 @@ private:
     FilterDialog* volumeDialog;
 
     static constexpr int PRICE_COLUMN_INDEX = 3;
+    static constexpr int VOLUME_COLUMN_INDEX = 4;
     double m_currentPriceFilterMin = 0.0;
     double m_currentPriceFilterMax = 0.0;
     bool m_priceFilterActive = false;

@@ -20,7 +20,7 @@ public:
 
     void setInfoText(QString text);
 
-    void setRange(double min, double max);
+    void setRange(double min, double max, bool useParamForLimit = false);
 
     bool wasClearFilterPressed() const;
 
