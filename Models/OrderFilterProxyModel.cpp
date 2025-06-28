@@ -70,7 +70,7 @@ bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
         return false;
     }
 
-    QVariant dataVariant = sourceModel()->data(sourceIndex, Qt::UserRole);
+    QVariant dataVariant = sourceModel()->data(sourceIndex, Qt::UserRole + 6);
     if (!dataVariant.canConvert<OrderData>()) {
         qDebug() << "filtreleme başarısız";
         return false;

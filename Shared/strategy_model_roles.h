@@ -10,7 +10,7 @@ namespace StrategyRoles {
         IdRole      = Qt::UserRole + 1,
         NameRole    = Qt::UserRole + 2,
         TypeRole    = Qt::UserRole + 3,
-        StateRole   = Qt::UserRole + 4
+        StateRole   = Qt::UserRole + 4,
     };
     Q_ENUM_NS(Role)
 }

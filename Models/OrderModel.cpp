@@ -7,6 +7,14 @@ OrderModel::OrderModel(QObject *parent)
 {
 }
 
+const QMap<int, QString> OrderModel::kHeaderLabels {
+    { StrategyNameRole, "Strategy Name" },
+    { OrderIdRole,      "Order ID" },
+    { BuySellRole,      "Buy/Sell" },
+    { PriceRole,        "Price" },
+    { VolumeRole,       "Volume (Filled/Active)" }
+};
+
 int OrderModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
@@ -28,56 +36,54 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
 
     const OrderData &order = m_orders.at(index.row());
 
-
+    // tüm itemleri ortalama:
     if (role == Qt::TextAlignmentRole) {
         return Qt::AlignCenter;
     }
 
+    // tableView'in kullanacağı DisplayRole:
     if (role == Qt::DisplayRole) {
-        switch (static_cast<Column>(index.column())) {
-            case StrategyName:
-                return m_nameResolver(order.unique_strategy_id);
-            case OrderId:
-                return QString::number(order.unique_order_id).rightJustified(3, '0');
-            case BuySell:
-                return (order.side == OrderData::Side::Buy ? "Buy" : "Sell");
-            case Price:
-                return QString::number(order.price, 'f', 2) + "$";
-            case Volume:
-                return QString("%1/%2")
-                    .arg(QString::number(order.filled_volume, 'f', 0), QString::number(order.active_volume, 'f', 0));
-            default:
-                return QVariant::fromValue(order);
+        auto keys = kHeaderLabels.keys();
+        if (index.column() >= 0 && index.column() < keys.size()) {
+            role = keys[index.column()];
+        } else {
+            return QVariant();
         }
     }
-    else if (role == Qt::UserRole) {
-        return QVariant::fromValue(order); // OrderData nesnesini QVariant olarak döndür
+
+    switch (role) {
+        case StrategyNameRole:
+            return m_nameResolver(order.unique_strategy_id);
+        case OrderIdRole:
+            return QString::number(order.unique_order_id).rightJustified(3, '0');
+        case BuySellRole:
+            return order.side == OrderData::Side::Buy ? "Buy" : "Sell";
+        case PriceRole:
+            return QString::number(order.price, 'f', 2) + "$";
+        case VolumeRole:
+            return QString("%1/%2")
+                .arg(QString::number(order.filled_volume, 'f', 0),
+                     QString::number(order.active_volume, 'f', 0));
+        case RawDataRole:
+            return QVariant::fromValue(order);
+        default:
+            return QVariant();
     }
+
     return QVariant();
 }
 
-QVariant OrderModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (role != Qt::DisplayRole)
+
+QVariant OrderModel::headerData(int section, Qt::Orientation orientation, int role) const {
+    if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
         return QVariant();
 
-    if (orientation == Qt::Horizontal) {
-        switch (static_cast<Column>(section)) {
-            case StrategyName:
-                return QStringLiteral("Strategy Name");
-            case OrderId:
-                return QStringLiteral("Order ID");
-            case BuySell:
-                return QStringLiteral("Buy/Sell");
-            case Price:
-                return QStringLiteral("Price");
-            case Volume:
-                return QStringLiteral("Volume (Filled/Active)");
-            default:
-                return QVariant();
-        }
-    }
-    return QAbstractTableModel::headerData(section, orientation, role);
+    // key'lerin sırası sütunların sırasını belirtir. key'lerin değeri sütun sırasından bağımsızdır.
+    auto keys = kHeaderLabels.keys();
+    if (section >= 0 && section < keys.size())
+        return kHeaderLabels[keys[section]];
+
+    return QVariant();
 }
 
 void OrderModel::setStrategyNameResolver(StrategyNameResolver resolver)
