@@ -43,6 +43,31 @@ void MainViewModel::SetStrategySelected(int strategy_id)
     OrdersVM->filter()->setSelectedStrategyIds(SelectedStrategies);
 }
 
+void MainViewModel::setPriceFilter(double min, double max)
+{
+    OrdersVM->filter()->setPriceFilter(min, max);
+}
+
+QPair<double, double> MainViewModel::ordersPriceRange()
+{
+    return OrdersVM->filter()->ordersPriceRange();
+}
+
+void MainViewModel::clearPriceFilter()
+{
+    OrdersVM->filter()->clearPriceFilter();
+}
+
+void MainViewModel::setVolumeFilter(double min, double max)
+{
+    OrdersVM->filter()->setVolumeFilter(min, max);
+}
+
+void MainViewModel::clearVolumeFilter()
+{
+    OrdersVM->filter()->clearVolumeFilter();
+}
+
 void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)
 {
     StrategiesVM->addStrategy(strategy);

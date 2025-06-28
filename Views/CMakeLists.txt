@@ -4,6 +4,7 @@ add_library(Views
     mainwindow.ui
     StrategyItemDelegate.cpp
     StrategyItemDelegate.h
+    filterdialog.h filterdialog.cpp filterdialog.ui
 
 )
 
