@@ -12,11 +12,14 @@ FilterDialog::FilterDialog(QWidget *parent) :
 
     // apply
     connect(ui->buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this](){
+        if(ui->doubleSpinBox_min->value() <= ui->doubleSpinBox_max->value()){
         m_filterActive = true;
         m_filterCleared = false;
         accept();
         storedMinVal = minVal;
         storedMaxVal = maxVal;
+        }
+        else reject();
     });
 
     // filtre sıfırlama:
@@ -53,11 +56,11 @@ void FilterDialog::setRange(double min, double max) {
     ui->label_minVal->setText(QString("Min Value: %1").arg(min));
     ui->label_maxVal->setText(QString("Max Value: %1").arg(max));
 
-    ui->doubleSpinBox_min->setMinimum(min);
-    ui->doubleSpinBox_min->setMaximum(max);
+    ui->doubleSpinBox_min->setMinimum(0);
+    ui->doubleSpinBox_min->setMaximum(10'000'000);
 
-    ui->doubleSpinBox_max->setMinimum(min);
-    ui->doubleSpinBox_max->setMaximum(max);
+    ui->doubleSpinBox_max->setMinimum(0);
+    ui->doubleSpinBox_max->setMaximum(10'000'000);
 
     minVal = min;
     maxVal = max;
