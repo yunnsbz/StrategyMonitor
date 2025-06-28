@@ -13,11 +13,11 @@ FilterDialog::FilterDialog(QWidget *parent) :
     // apply
     connect(ui->buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, [this](){
         if(ui->doubleSpinBox_min->value() <= ui->doubleSpinBox_max->value()){
-        m_filterActive = true;
         m_filterCleared = false;
+        m_filterActive = true;
+        storedMinVal = ui->doubleSpinBox_min->value();
+        storedMaxVal = ui->doubleSpinBox_max->value();
         accept();
-        storedMinVal = minVal;
-        storedMaxVal = maxVal;
         }
         else reject();
     });

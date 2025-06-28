@@ -8,7 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    MainVM(new MainViewModel())
+    MainVM(new MainViewModel()),
+    priceDialog(new FilterDialog(this)),
+    volumeDialog(new FilterDialog(this))
 {
     ui->setupUi(this);
 
@@ -55,19 +57,20 @@ void MainWindow::OnMultipleListItemClicked(const QItemSelection &selected, const
 
 void MainWindow::onPriceFilterRequested()
 {
-    FilterDialog dialog(this);
-
     auto priceRange = MainVM->ordersPriceRange();
-    dialog.setRange(priceRange.first, priceRange.second);
 
-    dialog.setInfoText("Set Price Range Between Min and Max values:");
+    if(priceRange.second <= 0) return;
 
-    if (dialog.exec() == QDialog::Accepted) {
-        if (dialog.wasClearFilterPressed()) {
+    priceDialog->setRange(priceRange.first, priceRange.second);
+
+    priceDialog->setInfoText("Set Price Range Between Min and Max values:");
+
+    if (priceDialog->exec() == QDialog::Accepted) {
+        if (priceDialog->wasClearFilterPressed()) {
             MainVM->clearPriceFilter();  // veya disable()
         } else {
-            double min = dialog.minValue();
-            double max = dialog.maxValue();
+            double min = priceDialog->minValue();
+            double max = priceDialog->maxValue();
             MainVM->setPriceFilter(min, max);
         }
     }

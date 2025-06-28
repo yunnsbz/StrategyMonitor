@@ -30,13 +30,13 @@ private:
 private:
     Ui::FilterDialog *ui;
 
-    bool m_filterCleared;
-    bool m_filterActive;
+    bool m_filterCleared = false;
+    bool m_filterActive = false;
 
-    double minVal;
-    double maxVal;
-    double storedMinVal;
-    double storedMaxVal;
+    double minVal = 0;
+    double maxVal = 0;
+    double storedMinVal = 0;
+    double storedMaxVal = 0;
 };
 
 #endif // FILTERDIALOG_H

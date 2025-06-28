@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "filterdialog.h"
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QItemSelection>
@@ -31,6 +32,9 @@ private:
     Ui::MainWindow *ui;
 
     MainViewModel* MainVM;
+
+    FilterDialog* priceDialog;
+    FilterDialog* volumeDialog;
 
     static constexpr int PRICE_COLUMN_INDEX = 3;
     double m_currentPriceFilterMin = 0.0;
