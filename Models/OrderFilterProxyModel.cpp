@@ -14,14 +14,60 @@ void OrderFilterProxyModel::setSelectedStrategyIds(const QSet<int> &ids)
         return;
     }
     m_selectedStrategyIds = ids;
-    m_filterActive = true;
+    m_strategyFilterActive = true;
     invalidateFilter();
 }
 
 void OrderFilterProxyModel::clearStrategyFilter()
 {
     m_selectedStrategyIds.clear();
-    m_filterActive = false;
+    m_strategyFilterActive = false;
+    invalidateFilter();
+}
+
+void OrderFilterProxyModel::setPriceFilter(double min, double max)
+{
+    m_priceFilter.min = min;
+    m_priceFilter.max = max;
+    m_priceFilter.isActive = true;
+    invalidateFilter();
+}
+
+QPair<double, double> OrderFilterProxyModel::ordersPriceRange() const
+{
+    double minPrice = std::numeric_limits<double>::max();
+    double maxPrice = std::numeric_limits<double>::lowest();
+
+    const QAbstractItemModel* model = sourceModel();
+    const int rowCount = model->rowCount();
+
+    for (int row = 0; row < rowCount; ++row) {
+        QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
+        QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
+
+        if (!rawVariant.canConvert<OrderData>())
+            continue;
+
+        OrderData order = rawVariant.value<OrderData>();
+
+        // filtrelenmemiş (strateji filtresi hariç) veri üzerinden aralık bul
+        if (!m_selectedStrategyIds.isEmpty() && !m_selectedStrategyIds.contains(order.unique_strategy_id))
+            continue;
+
+        double price = order.price;
+        minPrice = std::min(minPrice, price);
+        maxPrice = std::max(maxPrice, price);
+    }
+
+    if (minPrice == std::numeric_limits<double>::max())
+        return {0.0, 0.0};  // eşleşen satır yoksa
+
+    return {minPrice, maxPrice};
+}
+
+void OrderFilterProxyModel::clearPriceFilter()
+{
+    m_priceFilter.isActive = false;
     invalidateFilter();
 }
 
@@ -60,11 +106,6 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
 
 bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    // Filtre aktif değilse veya seçili ID yoksa tüm satırları kabul et
-    if (!m_filterActive || m_selectedStrategyIds.isEmpty()) {
-        return true;
-    }
-
     QModelIndex sourceIndex = sourceModel()->index(source_row, 0, source_parent);
     if (!sourceIndex.isValid()) {
         qDebug() << "source valid değil";
@@ -77,7 +118,31 @@ bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
         return false;
     }
 
-    // filtreleme başarılı
     OrderData order = dataVariant.value<OrderData>();
+
+    return
+        strategyFilter(order) &&
+        priceFilter(order);
+
+}
+
+bool OrderFilterProxyModel::strategyFilter(OrderData order) const
+{
+    // Filtre aktif değilse veya seçili ID yoksa tüm satırları kabul et
+    if (!m_strategyFilterActive || m_selectedStrategyIds.isEmpty()) {
+        return true;
+    }
+
+    // sadece strateji id'si uyuşanları ekle
     return m_selectedStrategyIds.contains(order.unique_strategy_id);
+}
+
+bool OrderFilterProxyModel::priceFilter(OrderData order) const
+{
+    // Filtre aktif değilse
+    if (!m_priceFilter.isActive) {
+        return true;
+    }
+
+    return order.price <= m_priceFilter.max && order.price >= m_priceFilter.min;
 }
