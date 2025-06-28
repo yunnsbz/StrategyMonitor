@@ -1,5 +1,6 @@
 #include "OrderFilterProxyModel.h"
 #include "OrderData.h"
+#include "order_model_roles.h"
 
 OrderFilterProxyModel::OrderFilterProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
@@ -70,7 +71,7 @@ bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
         return false;
     }
 
-    QVariant dataVariant = sourceModel()->data(sourceIndex, Qt::UserRole + 6);
+    QVariant dataVariant = sourceModel()->data(sourceIndex, OrderRoles::RawDataRole);
     if (!dataVariant.canConvert<OrderData>()) {
         qDebug() << "filtreleme başarısız";
         return false;

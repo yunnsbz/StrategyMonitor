@@ -1,5 +1,6 @@
 add_library(Shared
     strategy_model_roles.h
+    order_model_roles.h
 
 )
 

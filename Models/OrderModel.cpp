@@ -1,4 +1,6 @@
 #include "OrderModel.h"
+#include "order_model_roles.h"
+
 
 
 OrderModel::OrderModel(QObject *parent)
@@ -8,11 +10,11 @@ OrderModel::OrderModel(QObject *parent)
 }
 
 const QMap<int, QString> OrderModel::kHeaderLabels {
-    { StrategyNameRole, "Strategy Name" },
-    { OrderIdRole,      "Order ID" },
-    { BuySellRole,      "Buy/Sell" },
-    { PriceRole,        "Price" },
-    { VolumeRole,       "Volume (Filled/Active)" }
+    { OrderRoles::StrategyNameRole, "Strategy Name" },
+    { OrderRoles::OrderIdRole,      "Order ID" },
+    { OrderRoles::BuySellRole,      "Buy/Sell" },
+    { OrderRoles::PriceRole,        "Price" },
+    { OrderRoles::VolumeRole,       "Volume (Filled/Active)" }
 };
 
 int OrderModel::rowCount(const QModelIndex &parent) const
@@ -52,19 +54,19 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
     }
 
     switch (role) {
-        case StrategyNameRole:
+        case OrderRoles::StrategyNameRole:
             return m_nameResolver(order.unique_strategy_id);
-        case OrderIdRole:
+        case OrderRoles::OrderIdRole:
             return QString::number(order.unique_order_id).rightJustified(3, '0');
-        case BuySellRole:
+        case OrderRoles::BuySellRole:
             return order.side == OrderData::Side::Buy ? "Buy" : "Sell";
-        case PriceRole:
+        case OrderRoles::PriceRole:
             return QString::number(order.price, 'f', 2) + "$";
-        case VolumeRole:
+        case OrderRoles::VolumeRole:
             return QString("%1/%2")
                 .arg(QString::number(order.filled_volume, 'f', 0),
                      QString::number(order.active_volume, 'f', 0));
-        case RawDataRole:
+        case OrderRoles::RawDataRole:
             return QVariant::fromValue(order);
         default:
             return QVariant();
