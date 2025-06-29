@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "HeaderWithIcons.h"
 #include "OrderModel.h"
 #include "OrdersViewModel.h"
 #include "StrategiesViewModel.h"
@@ -19,7 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_strategiesVM(new StrategiesViewModel(this)),
     m_dataReceiver(new DataReceiver(m_strategiesVM, m_ordersVM)),
     m_priceDialog(new FilterDialog(this)),
-    m_volumeDialog(new FilterDialog(this))
+    m_volumeDialog(new FilterDialog(this)),
+    m_header(new HeaderWithIcons(Qt::Horizontal, this))
 {
     ui->setupUi(this);
 
@@ -37,12 +39,16 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableViewOrders->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
     ui->tableViewOrders->setModel(m_ordersVM->model());
 
+    ui->tableViewOrders->setHorizontalHeader(m_header);
+    ui->tableViewOrders->setSortingEnabled(true);
     OrderTypeDelegate *orderTypeDelegate = new OrderTypeDelegate(this);
     ui->tableViewOrders->setItemDelegateForColumn(SIDE_COLUMN_INDEX, orderTypeDelegate);
 
     // strategies filter button toggles
     ui->pushButtonShowRunning->setCheckable(true);
     ui->pushButtonShowPaused->setCheckable(true);
+
+    connect(m_ordersVM, &OrdersViewModel::orderFilterChanged, this, &MainWindow::onOrderFilterChanged);
 
     // list item onClick
     connect(ui->listViewStrategies->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onMultipleListItemClicked);
@@ -136,6 +142,15 @@ void MainWindow::onVolumeFilterRequested()
             double max = m_volumeDialog->maxValue();
             m_ordersVM->setVolumeFilter(min, max);
         }
+    }
+}
+
+void MainWindow::onOrderFilterChanged(int column, bool state)
+{
+    if (state) {
+        m_header->setIconForSection(column, QIcon(":/icons/Views/filter-icon.png"));
+    } else {
+        m_header->clearIconForSection(column);
     }
 }
 

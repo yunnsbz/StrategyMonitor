@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "HeaderWithIcons.h"
 #include "filterdialog.h"
 #include <QMainWindow>
 #include <QModelIndex>
@@ -36,6 +37,9 @@ private slots:
     void onPriceFilterRequested();
     void onVolumeFilterRequested();
 
+    void onOrderFilterChanged(int column, bool state);
+
+
     /**
      * used for strategy state toggle buttons
      */
@@ -51,6 +55,8 @@ private:
 
     FilterDialog* m_priceDialog;
     FilterDialog* m_volumeDialog;
+
+    HeaderWithIcons* m_header;
 
     static constexpr int SIDE_COLUMN_INDEX = 2;
     static constexpr int PRICE_COLUMN_INDEX = 3;

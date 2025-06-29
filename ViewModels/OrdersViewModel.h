@@ -43,6 +43,11 @@ public:
      */
     void addOrder(const class OrderData& data);
 
+    int columnIndexForRole(int role);
+
+signals:
+    void orderFilterChanged(int column, bool state);
+
 private slots:
     void onOrderFilterChanged(int role, bool state);
 

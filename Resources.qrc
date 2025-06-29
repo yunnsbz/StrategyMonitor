@@ -6,5 +6,6 @@
         <file>Views/square_running.svg</file>
         <file>Views/buy-icon.png</file>
         <file>Views/sell-icon.png</file>
+        <file>Views/filter-icon.png</file>
     </qresource>
 </RCC>

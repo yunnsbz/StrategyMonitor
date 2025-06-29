@@ -7,6 +7,8 @@ add_library(Views
     filterdialog.h filterdialog.cpp filterdialog.ui
     OrderTypeDelegate.h
     OrderTypeDelegate.cpp
+    HeaderWithIcons.h
+    HeaderWithIcons.cpp
 
 )
 

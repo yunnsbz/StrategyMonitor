@@ -62,7 +62,12 @@ void OrdersViewModel::addOrder(const OrderData& data) {
     m_model->addOrder(data);
 }
 
+int OrdersViewModel::columnIndexForRole(int role)
+{
+    return m_model->getColumnIndex(role);
+}
+
 void OrdersViewModel::onOrderFilterChanged(int role, bool state)
 {
-
+    emit orderFilterChanged(columnIndexForRole(role), state);
 }
