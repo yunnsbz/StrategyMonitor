@@ -33,10 +33,10 @@ private:
     bool m_filterCleared = false;
     bool m_filterActive = false;
 
-    double minVal = 0;
-    double maxVal = 0;
-    double storedMinVal = 0;
-    double storedMaxVal = 0;
+    double m_minVal = 0;
+    double m_maxVal = 0;
+    double m_storedMinVal = 0;
+    double m_storedMaxVal = 0;
 };
 
 #endif // FILTERDIALOG_H

@@ -7,20 +7,24 @@
 StrategyDelegate::StrategyDelegate(QObject *parent)
     :
     QStyledItemDelegate(parent)
-{}
+{
 
-QSize StrategyDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const {
+}
+
+QSize StrategyDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
+{
     return QSize(280, 70);
 }
 
-void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-
-    // Veriler
+void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    // values
     QString strategyId = index.data(StrategyRoles::IdRole).toString();
     QString name = index.data(StrategyRoles::NameRole).toString();
     QString type = index.data(StrategyRoles::TypeRole).toString();
     QString state = index.data(StrategyRoles::StateRole).toString();
 
+    // item states
     bool isSelected = option.state & QStyle::State_Selected;
     bool isMouseOver = option.state & QStyle::State_MouseOver;
 
@@ -31,19 +35,17 @@ void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     int leftSpace = 10;
     int rightSpace = 10;
 
-    // arkaplanı çizdirme
+    // background
     QPainterPath backgroundPath;
     backgroundPath.addRoundedRect(rect.adjusted(5, 5, -5, -5), 5, 5);
 
-    // Arka plan
     QColor backgroundColor(0x1E1E1E);
-    if (isSelected){
-        if(isMouseOver){
+    if (isSelected) {
+        if(isMouseOver)
             backgroundColor.setRgb(0x3B4C66);
-        }
-        else backgroundColor.setRgb(0x303F55);
-    }
-    else if(isMouseOver){
+        else
+            backgroundColor.setRgb(0x303F55);
+    } else if(isMouseOver) {
         backgroundColor.setRgb(0x2A2A2A);
     }
     painter->fillPath(backgroundPath, backgroundColor);
@@ -63,8 +65,7 @@ void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     if (isSelected){
         QIcon icon(":/icons/Views/check_box.svg");
         icon.paint(painter, leftIconRect, Qt::AlignCenter);
-    }
-    else{
+    } else {
         QIcon icon(":/icons/Views/check_box_blank.svg");
         icon.paint(painter, leftIconRect, Qt::AlignCenter);
     }
@@ -94,11 +95,10 @@ void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     // sağ state ikonu
     QRect rightIconRect(rect.right() - 35 - rightSpace, rect.top() + 15 + topSpace, 30, 30);
 
-    if(state == "Running"){
+    if(state == "Running") {
         QIcon icon(":/icons/Views/square_running.svg");
         icon.paint(painter, rightIconRect, Qt::AlignCenter);
-    }
-    else{
+    } else {
         QIcon icon(":/icons/Views/square_paused.svg");
         icon.paint(painter, rightIconRect, Qt::AlignCenter);
     }

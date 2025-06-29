@@ -1,6 +1,13 @@
 #include "OrderTypeDelegate.h"
 #include <qapplication.h>
 
+OrderTypeDelegate::OrderTypeDelegate(QObject *parent)
+    :
+    QStyledItemDelegate(parent)
+{
+
+}
+
 void OrderTypeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     painter->save();
@@ -14,12 +21,12 @@ void OrderTypeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     QString value = index.data().toString().toLower(); // "buy" veya "sell"
 
     QIcon icon;
-    if (value == "buy") {
+    if (value == "buy")
         icon = QIcon(":/icons/Views/buy-icon.png");
-    } else if (value == "sell") {
+    else if (value == "sell")
         icon = QIcon(":/icons/Views/sell-icon.png");
-    }
-    else qDebug() << "column error";
+    else
+        qDebug() << "column error";
 
     // Simgeyi çiz
     QRect iconRect = option.rect;

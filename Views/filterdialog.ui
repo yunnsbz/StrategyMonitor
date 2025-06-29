@@ -20,7 +20,7 @@
       <number>10</number>
      </property>
      <item>
-      <widget class="QLabel" name="label_info">
+      <widget class="QLabel" name="labelInfo">
        <property name="text">
         <string>info text</string>
        </property>
@@ -32,14 +32,14 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QLabel" name="label_minVal">
+        <widget class="QLabel" name="labelMinVal">
          <property name="text">
           <string>Min Value: 0</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_maxVal">
+        <widget class="QLabel" name="labelMaxVal">
          <property name="text">
           <string>Max Value: 1</string>
          </property>
@@ -50,10 +50,10 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_min"/>
+        <widget class="QDoubleSpinBox" name="doubleSpinBoxMin"/>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="doubleSpinBox_max"/>
+        <widget class="QDoubleSpinBox" name="doubleSpinBoxMax"/>
        </item>
       </layout>
      </item>

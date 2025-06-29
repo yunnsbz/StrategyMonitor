@@ -5,7 +5,8 @@
 #include <QObject>
 #include <QPainter>
 
-class StrategyDelegate : public QStyledItemDelegate{
+class StrategyDelegate : public QStyledItemDelegate
+{
     Q_OBJECT
 
 public:

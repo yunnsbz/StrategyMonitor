@@ -23,17 +23,18 @@ public:
     ~MainWindow();
 
 private slots:
-    void OnMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected);
+    void onMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected);
 
     void onPriceFilterRequested();
     void onVolumeFilterRequested();
     void onSelectedStrategiesChanged();
 
+    void onStrategyFilterChanged();
 
 private:
     Ui::MainWindow *ui;
 
-    MainViewModel* MainVM;
+    MainViewModel* mainVM;
 
     FilterDialog* priceDialog;
     FilterDialog* volumeDialog;
@@ -44,6 +45,11 @@ private:
     double m_currentPriceFilterMin = 0.0;
     double m_currentPriceFilterMax = 0.0;
     bool m_priceFilterActive = false;
+
+    // Strategy Filters:
+    bool m_showRunningToggle = false;
+    bool m_showPausedToggle = false;
+
 
 };
 #endif // MAINWINDOW_H

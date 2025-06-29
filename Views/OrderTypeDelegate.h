@@ -5,9 +5,11 @@
 #include <QObject>
 #include <QPainter>
 
-class OrderTypeDelegate : public QStyledItemDelegate {
+class OrderTypeDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
 public:
-    OrderTypeDelegate(QObject *parent = nullptr) : QStyledItemDelegate(parent) {}
+    OrderTypeDelegate(QObject *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
