@@ -3,7 +3,8 @@
 
 #include <QString>
 
-struct StrategyData {
+struct StrategyData
+{
     int unique_strategy_id;
     enum class Type { StrategyType1, StrategyType2 } type;
     QString strategy_name;

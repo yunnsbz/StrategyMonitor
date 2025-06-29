@@ -5,7 +5,8 @@
 
 #include "StrategyData.h"
 
-class StrategyModel : public QAbstractListModel{
+class StrategyModel : public QAbstractListModel
+{
     Q_OBJECT
 public:
     StrategyModel(QObject *parent = nullptr);

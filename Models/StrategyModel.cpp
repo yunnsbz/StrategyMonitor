@@ -3,14 +3,18 @@
 
 StrategyModel::StrategyModel(QObject *parent)
     : QAbstractListModel(parent)
-{}
+{
 
-int StrategyModel::rowCount(const QModelIndex &parent) const {
+}
+
+int StrategyModel::rowCount(const QModelIndex &parent) const
+{
     Q_UNUSED(parent);
     return m_strategies.size();
 }
 
-QVariant StrategyModel::data(const QModelIndex &index, int role) const {
+QVariant StrategyModel::data(const QModelIndex &index, int role) const
+{
     if (!index.isValid() || index.row() >= m_strategies.size())
         return QVariant();
 
@@ -30,7 +34,8 @@ QVariant StrategyModel::data(const QModelIndex &index, int role) const {
     }
 }
 
-QHash<int, QByteArray> StrategyModel::roleNames() const {
+QHash<int, QByteArray> StrategyModel::roleNames() const
+{
     return {
         { StrategyRoles::IdRole, "unique_strategy_id" },
         { StrategyRoles::NameRole, "strategy_name" },
@@ -39,13 +44,15 @@ QHash<int, QByteArray> StrategyModel::roleNames() const {
     };
 }
 
-void StrategyModel::addStrategy(const StrategyData &strategy) {
+void StrategyModel::addStrategy(const StrategyData &strategy)
+{
     beginInsertRows(QModelIndex(), m_strategies.size(), m_strategies.size());
     m_strategies.append(strategy);
     endInsertRows();
 }
 
-StrategyData StrategyModel::getStrategy(int targetId) const {
+StrategyData StrategyModel::getStrategy(int targetId) const
+{
     auto it = std::find_if(m_strategies.begin(), m_strategies.end(),
         [targetId](const StrategyData& strategy) {
             return strategy.unique_strategy_id == targetId;

@@ -4,7 +4,8 @@
 #include <QObject>
 #include <QMetaType>
 
-struct OrderData {
+struct OrderData
+{
     Q_GADGET // Qt meta veri sistemi için Q_GADGET kullanıyoruz (QObject türetmesi gerekmez)
 public:
     int unique_order_id;

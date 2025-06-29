@@ -7,6 +7,8 @@ add_library(Models
     OrderModel.cpp
     OrderFilterProxyModel.h
     OrderFilterProxyModel.cpp
+    StrategyFilterProxyModel.h
+    StrategyFilterProxyModel.cpp
 )
 
 target_include_directories(Models
