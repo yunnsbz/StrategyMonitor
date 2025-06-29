@@ -1,4 +1,6 @@
 #include "StrategyFilterProxyModel.h"
+
+#include <utility>
 #include "strategy_model_roles.h"
 
 
@@ -11,7 +13,7 @@ StrategyFilterProxyModel::StrategyFilterProxyModel(QObject *parent)
 
 void StrategyFilterProxyModel::setSelectedState(QString state)
 {
-    m_selectedState = state;
+    m_selectedState = std::move(state);
     m_strategyFilterActive = true;
     invalidateFilter();
 }
@@ -25,11 +27,12 @@ void StrategyFilterProxyModel::clearStrategyFilter()
 bool StrategyFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     if(m_strategyFilterActive){
-        QModelIndex stateIndex = sourceModel()->index(source_row, 0, source_parent);
-        QString state = sourceModel()->data(stateIndex, StrategyRoles::StateRole).toString();
+        const QModelIndex stateIndex = sourceModel()->index(source_row, 0, source_parent);
+        const QString state = sourceModel()->data(stateIndex, StrategyRoles::StateRole).toString();
 
         return state == m_selectedState;
     }
-    else
+    else {
         return true;
+    }
 }

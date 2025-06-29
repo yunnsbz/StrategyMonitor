@@ -1,4 +1,6 @@
 #include "StrategiesViewModel.h"
+
+#include <utility>
 #include "StrategyData.h"
 #include "StrategyFilterProxyModel.h"
 #include "StrategyModel.h"
@@ -12,13 +14,13 @@ StrategiesViewModel::StrategiesViewModel(QObject *parent)
     m_filteredStrategyModel->setSourceModel(m_model);
 }
 
-void StrategiesViewModel::setStrategySelected(QVariant data)
+void StrategiesViewModel::setStrategySelected(const QVariant &data)
 {
     if (!data.canConvert<StrategyData>()) {
         qDebug() << "setStrategySelected > StrategyData çevirme başarısız";
         return;
     }
-    StrategyData strategy = data.value<StrategyData>();
+    const StrategyData strategy = data.value<StrategyData>();
     if(m_selectedStrategies.contains(strategy))
         m_selectedStrategies.remove(strategy);
     else
@@ -47,9 +49,9 @@ QSet<QString> StrategiesViewModel::getSelectedStrategyNames()
     return selectedNames;
 }
 
-void StrategiesViewModel::setStrategyStateFilter(QString state)
+void StrategiesViewModel::setStrategyStateFilter(QString state) const
 {
-    filter()->setSelectedState(state);
+    filter()->setSelectedState(std::move(state));
 }
 
 void StrategiesViewModel::clearStrategyFilter()

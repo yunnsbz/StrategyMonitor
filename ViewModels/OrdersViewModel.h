@@ -14,7 +14,7 @@ class OrdersViewModel : public QObject
 public:
     explicit OrdersViewModel(QObject *parent = nullptr);
 
-    void applyStrategyFilter(QSet<int> ids);
+    void applyStrategyFilter(const QSet<int> &ids);
 
     /**
      * set price proxy filter between min and max price values.
@@ -26,9 +26,9 @@ public:
      * checks unfiltred strategies and fetch min and max price values.
      * Returns: min, max price Range.
      */
-    QPair<double,double> getOrdersPriceRange();
-    QPair<int, int> getFilledVolRange();
-    QPair<int, int> getActiveVolRange();
+    auto getOrdersPriceRange() -> QPair<double,double>;
+    auto getFilledVolRange() -> QPair<int, int>;
+    auto getActiveVolRange() -> QPair<int, int>;
 
     /**
      * values should be between 0 and 100 (percentage)

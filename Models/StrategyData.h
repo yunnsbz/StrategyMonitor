@@ -12,7 +12,7 @@ public:
     int unique_strategy_id;
     QString strategy_name;
 
-    enum class Type { StrategyType1, StrategyType2 };
+    enum  Type : char { StrategyType1, StrategyType2 };
     Q_ENUM(Type)
     Type type;
 

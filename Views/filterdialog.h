@@ -18,7 +18,7 @@ public:
     double minValue() const;
     double maxValue() const;
 
-    void setTitleText(QString text);
+    void setTitleText(const QString &text);
 
     /**
      * Sets the minimum and maximum value range for the filter dialog.

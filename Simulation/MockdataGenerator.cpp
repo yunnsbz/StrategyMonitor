@@ -44,19 +44,19 @@ StrategyData MockDataGenerator::createStrategy()
     currentStrategytId++;
 
     // type
-    StrategyData::Type type = static_cast<StrategyData::Type>(
+    const auto type = static_cast<StrategyData::Type>(
         QRandomGenerator::global()->bounded(0, 2));
 
     // state
-    StrategyData::State state = static_cast<StrategyData::State>(
+    const auto state = static_cast<StrategyData::State>(
         QRandomGenerator::global()->bounded(0, 2));
 
     // isim seçimi
-    QVector<QString> namePool = {
+    const QVector<QString> namePool = {
         "Alpha", "Beta", "Gamma", "Delta", "Omega",
         "Zeta", "Sigma", "Kappa", "Echo", "Nova"
     };
-    QString strategyName = namePool[QRandomGenerator::global()->bounded(namePool.size())] + QString::number(currentStrategytId);
+    const QString strategyName = namePool[QRandomGenerator::global()->bounded(namePool.size())] + QString::number(currentStrategytId);
 
     StrategyData data;
     data.unique_strategy_id = currentStrategytId;
@@ -71,12 +71,12 @@ OrderData MockDataGenerator::createOrder()
     currentOrderId++;
 
     // side
-    OrderData::Side side = static_cast<OrderData::Side>(
+    const OrderData::Side side = static_cast<OrderData::Side>(
         QRandomGenerator::global()->bounded(0, 2));
 
-    double price = QRandomGenerator::global()->generateDouble() * 1500;
-    double active_volume = QRandomGenerator::global()->generateDouble() * 1000;
-    double filled_volume = QRandomGenerator::global()->generateDouble() * active_volume;
+    const double price = QRandomGenerator::global()->generateDouble() * 1500;
+    const double active_volume = QRandomGenerator::global()->generateDouble() * 1000;
+    const double filled_volume = QRandomGenerator::global()->generateDouble() * active_volume;
 
     int order_id = 0;
     if(currentStrategytId > 0)

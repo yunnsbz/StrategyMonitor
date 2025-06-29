@@ -55,7 +55,7 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
         if (index.column() >= 0 && index.column() < keys.size()) {
             role = keys[index.column()];
         } else {
-            return QVariant();
+            return {};
         }
     }
 
@@ -77,15 +77,15 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
         case OrderRoles::RawDataRole:
             return QVariant::fromValue(order);
         default:
-            return QVariant();
+            return {};
     }
 
-    return QVariant();
+    return {};
 }
 
 QVariant OrderModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
-        return QVariant();
+        return {};
 
     // The order of the keys specifies the order of the columns.
     // The value of the keys is independent of the number of columns.
@@ -93,17 +93,17 @@ QVariant OrderModel::headerData(int section, Qt::Orientation orientation, int ro
     if (section >= 0 && section < keys.size())
         return kHeaderLabels[keys[section]];
 
-    return QVariant();
+    return {};
 }
 
 void OrderModel::setStrategyNameResolver(StrategyNameResolver resolver)
 {
-    m_nameResolver = resolver;
+    m_nameResolver = std::move(resolver);
 }
 
 void OrderModel::addOrder(const OrderData &order)
 {
-    int newRow = m_orders.count();
+    const int newRow = m_orders.count();
     beginInsertRows(QModelIndex(), newRow, newRow);
     m_orders.append(order);
     endInsertRows();
@@ -112,7 +112,8 @@ void OrderModel::addOrder(const OrderData &order)
 
 void OrderModel::clearOrders()
 {
-    if (m_orders.isEmpty()) return;
+    if (m_orders.isEmpty())
+        return;
     beginResetModel();
     m_orders.clear();
     endResetModel();

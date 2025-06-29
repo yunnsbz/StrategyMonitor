@@ -4,10 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-
-    // Stil listesi: "Fusion", "Windows", "WindowsVista"
-    // a.setStyle(QStyleFactory::create("WindowsVista"));
+    const QApplication a(argc, argv);
 
     MainWindow w;
     w.show();

@@ -16,7 +16,7 @@ int StrategyModel::rowCount(const QModelIndex &parent) const
 QVariant StrategyModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_strategies.size())
-        return QVariant();
+        return {};
 
     const StrategyData &s = m_strategies.at(index.row());
 
@@ -32,11 +32,11 @@ QVariant StrategyModel::data(const QModelIndex &index, int role) const
     case StrategyRoles::RawDataRole:
         return QVariant::fromValue(s);
     default:
-        return QVariant();
+        return {};
     }
 }
 
-QHash<int, QByteArray> StrategyModel::roleNames() const
+auto StrategyModel::roleNames() const -> QHash<int, QByteArray>
 {
     return {
         { StrategyRoles::IdRole, "unique_strategy_id" },

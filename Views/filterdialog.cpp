@@ -49,7 +49,7 @@ double FilterDialog::maxValue() const {
     return ui->doubleSpinBoxMax->value();
 }
 
-void FilterDialog::setTitleText(QString text)
+void FilterDialog::setTitleText(const QString &text)
 {
     setWindowTitle(text);
 }

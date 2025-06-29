@@ -14,7 +14,7 @@ OrdersViewModel::OrdersViewModel(QObject *parent)
     connect(filter(),&OrderFilterProxyModel::filterChanged, this, &OrdersViewModel::onOrderFilterChanged);
 }
 
-void OrdersViewModel::applyStrategyFilter(QSet<int> ids)
+void OrdersViewModel::applyStrategyFilter(const QSet<int> &ids)
 {
     filter()->setSelectedStrategyIds(ids);
 }
@@ -24,17 +24,17 @@ void OrdersViewModel::setPriceFilter(double min, double max)
     filter()->setPriceFilter(min, max);
 }
 
-QPair<double, double> OrdersViewModel::getOrdersPriceRange()
+auto OrdersViewModel::getOrdersPriceRange() -> QPair<double, double>
 {
     return filter()->getOrdersPriceRange();
 }
 
-QPair<int, int> OrdersViewModel::getFilledVolRange()
+auto OrdersViewModel::getFilledVolRange() -> QPair<int, int>
 {
     return filter()->getFilledVolRange();
 }
 
-QPair<int, int> OrdersViewModel::getActiveVolRange()
+auto OrdersViewModel::getActiveVolRange() -> QPair<int, int>
 {
     return filter()->getOrdersPriceRange();
 }

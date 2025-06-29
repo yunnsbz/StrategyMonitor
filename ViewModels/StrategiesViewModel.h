@@ -18,7 +18,7 @@ public:
      * if strategy allready selected then removes it from the set.
      * if strategy is not in the set then inserts it.
      */
-    void setStrategySelected(QVariant data);
+    void setStrategySelected(const QVariant &data);
     QSet<int> getSelectedStrategyIds();
     QSet<QString> getSelectedStrategyNames();
 
@@ -26,7 +26,7 @@ public:
      * used to show only one state type from strategies.
      * there are two states: "Running" and "Paused".
      */
-    void setStrategyStateFilter(QString state);
+    void setStrategyStateFilter(QString state) const;
     void clearStrategyFilter();
 
     QAbstractItemModel* model() const;

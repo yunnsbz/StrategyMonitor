@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     // listView:
     ui->listViewStrategies->setModel(m_strategiesVM->model());
 
-    StrategyDelegate *delegate = new StrategyDelegate(this);
+    auto *delegate = new StrategyDelegate(this);
     ui->listViewStrategies->setItemDelegate(delegate);
 
     // tableView
@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tableViewOrders->setHorizontalHeader(m_header);
     ui->tableViewOrders->setSortingEnabled(true);
-    OrderTypeDelegate *orderTypeDelegate = new OrderTypeDelegate(this);
+    auto *orderTypeDelegate = new OrderTypeDelegate(this);
     ui->tableViewOrders->setItemDelegateForColumn(SIDE_COLUMN_INDEX, orderTypeDelegate);
 
     // strategies filter button toggles
@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     // table header column onRightClick
     connect(ui->tableViewOrders->horizontalHeader(), &QHeaderView::customContextMenuRequested, this,
             [this](const QPoint& pos) {
-        int column = ui->tableViewOrders->horizontalHeader()->logicalIndexAt(pos);
+        const int column = ui->tableViewOrders->horizontalHeader()->logicalIndexAt(pos);
 
         // use PRICE_COLUMN_INDEX instead if columns can change on the ui
         // othervise columns can only change in the OrderModel (kHeaderLabels)
@@ -97,14 +97,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::onMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    QModelIndexList deselectedIndexes = deselected.indexes();
+    const QModelIndexList deselectedIndexes = deselected.indexes();
 
-    for(auto &index : deselectedIndexes)
+    for(const auto &index : deselectedIndexes)
         m_strategiesVM->setStrategySelected(index.data(StrategyRoles::RawDataRole));
 
-    QModelIndexList selectedIndexes = selected.indexes();
+    const QModelIndexList selectedIndexes = selected.indexes();
 
-    for(auto &index : selectedIndexes)
+    for(const auto &index : selectedIndexes)
         m_strategiesVM->setStrategySelected(index.data(StrategyRoles::RawDataRole));
 
     m_ordersVM->applyStrategyFilter(m_strategiesVM->getSelectedStrategyIds());
@@ -114,7 +114,7 @@ void MainWindow::onMultipleListItemClicked(const QItemSelection &selected, const
 
 void MainWindow::onPriceFilterRequested()
 {
-    auto priceRange = m_ordersVM->getOrdersPriceRange();
+    const auto priceRange = m_ordersVM->getOrdersPriceRange();
 
     if(priceRange.second <= 0) return;
 
@@ -126,8 +126,8 @@ void MainWindow::onPriceFilterRequested()
         if (m_priceDialog->wasClearFilterPressed()) {
             m_ordersVM->clearPriceFilter();
         } else {
-            double min = m_priceDialog->minValue();
-            double max = m_priceDialog->maxValue();
+            const double min = m_priceDialog->minValue();
+            const double max = m_priceDialog->maxValue();
             m_ordersVM->setPriceFilter(min, max);
         }
     }
@@ -135,7 +135,7 @@ void MainWindow::onPriceFilterRequested()
 
 void MainWindow::onFiledVolFilterRequested()
 {
-    auto volRange = m_ordersVM->getFilledVolRange();
+    const auto volRange = m_ordersVM->getFilledVolRange();
 
     m_filledVolDialog->setRange(volRange.first, volRange.second);
 
@@ -145,8 +145,8 @@ void MainWindow::onFiledVolFilterRequested()
         if (m_filledVolDialog->wasClearFilterPressed()) {
             m_ordersVM->clearFilledVolFilter();
         } else {
-            double min = m_filledVolDialog->minValue();
-            double max = m_filledVolDialog->maxValue();
+            const double min = m_filledVolDialog->minValue();
+            const double max = m_filledVolDialog->maxValue();
             m_ordersVM->setFilledVolFilter(min, max);
         }
     }
@@ -154,7 +154,7 @@ void MainWindow::onFiledVolFilterRequested()
 
 void MainWindow::onActiveVolFilterRequested()
 {
-    auto volRange = m_ordersVM->getActiveVolRange();
+    const auto volRange = m_ordersVM->getActiveVolRange();
 
     m_activeVolDialog->setRange(volRange.first, volRange.second);
 
@@ -164,8 +164,8 @@ void MainWindow::onActiveVolFilterRequested()
         if (m_activeVolDialog->wasClearFilterPressed()) {
             m_ordersVM->clearActiveVolFilter();
         } else {
-            double min = m_activeVolDialog->minValue();
-            double max = m_activeVolDialog->maxValue();
+            const double min = m_activeVolDialog->minValue();
+            const double max = m_activeVolDialog->maxValue();
             m_ordersVM->setActiveVolFilter(min, max);
         }
     }
@@ -182,14 +182,14 @@ void MainWindow::onOrderFilterChanged(int column, bool state)
 
 void MainWindow::onSelectedStrategiesChanged()
 {
-    auto names = m_strategiesVM->getSelectedStrategyNames();
+    const auto names = m_strategiesVM->getSelectedStrategyNames();
 
     if(names.isEmpty()) {
         ui->labelSelectedStrategies->setText("(Showing All Orders)");
     } else {
         QString output = "(";
 
-        for(auto name : names)
+        for(const auto &name : names)
             output += name + ", ";
 
         // sonda virgül varsa kaldır
@@ -222,7 +222,7 @@ void MainWindow::onStrategyFilterChanged()
 
 void MainWindow::on_actionHowSimulationWorks_triggered()
 {
-    QString infoText =
+    const QString infoText =
             "How Simulation Works:\n\n"
             "• QTimer triggers the creation of a new strategy and order every few seconds.\n"
             "• These strategies and orders are created with completely random ranges and values.\n"
@@ -234,7 +234,7 @@ void MainWindow::on_actionHowSimulationWorks_triggered()
 
 void MainWindow::on_actionHowToUse_triggered()
 {
-    QString infoText =
+    const QString infoText =
             "• Right click on the table header titles to filter. (only on price and volumes)\n"
             "• Select the range from the popup menu and apply the filter.\n"
             "• To remove the filter, open the filter window again and click restore defaults.\n"

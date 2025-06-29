@@ -34,7 +34,7 @@ void OrderFilterProxyModel::setPriceFilter(double min, double max)
     invalidateFilter();
 }
 
-QPair<double, double> OrderFilterProxyModel::getOrdersPriceRange() const
+auto OrderFilterProxyModel::getOrdersPriceRange() const -> QPair<double, double>
 {
     double minPrice = std::numeric_limits<double>::max();
     double maxPrice = std::numeric_limits<double>::lowest();
@@ -43,19 +43,19 @@ QPair<double, double> OrderFilterProxyModel::getOrdersPriceRange() const
     const int rowCount = model->rowCount();
 
     for (int row = 0; row < rowCount; ++row) {
-        QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
-        QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
+        const QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
+        const QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
 
         if (!rawVariant.canConvert<OrderData>())
             continue;
 
-        OrderData order = rawVariant.value<OrderData>();
+        const OrderData order = rawVariant.value<OrderData>();
 
         // check only for unfiltered strategies
         if (!m_selectedStrategyIds.isEmpty() && !m_selectedStrategyIds.contains(order.unique_strategy_id))
             continue;
 
-        double price = order.price;
+        const double price = order.price;
         minPrice = std::min(minPrice, price);
         maxPrice = std::max(maxPrice, price);
     }
@@ -66,7 +66,7 @@ QPair<double, double> OrderFilterProxyModel::getOrdersPriceRange() const
     return {minPrice, maxPrice};
 }
 
-QPair<int, int> OrderFilterProxyModel::getFilledVolRange() const
+auto OrderFilterProxyModel::getFilledVolRange() const -> QPair<int, int>
 {
     double minVol = std::numeric_limits<double>::max();
     double maxVol = std::numeric_limits<double>::lowest();
@@ -75,19 +75,19 @@ QPair<int, int> OrderFilterProxyModel::getFilledVolRange() const
     const int rowCount = model->rowCount();
 
     for (int row = 0; row < rowCount; ++row) {
-        QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
-        QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
+        const QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
+        const QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
 
         if (!rawVariant.canConvert<OrderData>())
             continue;
 
-        OrderData order = rawVariant.value<OrderData>();
+        const OrderData order = rawVariant.value<OrderData>();
 
         // check only for unfiltered strategies
         if (!m_selectedStrategyIds.isEmpty() && !m_selectedStrategyIds.contains(order.unique_strategy_id))
             continue;
 
-        double volume = order.filled_volume;
+        const double volume = order.filled_volume;
         minVol = std::min(minVol, volume);
         maxVol = std::max(maxVol, volume);
     }
@@ -98,7 +98,7 @@ QPair<int, int> OrderFilterProxyModel::getFilledVolRange() const
     return {minVol, maxVol};
 }
 
-QPair<int, int> OrderFilterProxyModel::getActiveVolRange() const
+auto OrderFilterProxyModel::getActiveVolRange() const -> QPair<int, int>
 {
     double minVol = std::numeric_limits<double>::max();
     double maxVol = std::numeric_limits<double>::lowest();
@@ -107,19 +107,19 @@ QPair<int, int> OrderFilterProxyModel::getActiveVolRange() const
     const int rowCount = model->rowCount();
 
     for (int row = 0; row < rowCount; ++row) {
-        QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
-        QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
+        const QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
+        const QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
 
         if (!rawVariant.canConvert<OrderData>())
             continue;
 
-        OrderData order = rawVariant.value<OrderData>();
+        const OrderData order = rawVariant.value<OrderData>();
 
         // check only for unfiltered strategies
         if (!m_selectedStrategyIds.isEmpty() && !m_selectedStrategyIds.contains(order.unique_strategy_id))
             continue;
 
-        double volume = order.active_volume;
+        const double volume = order.active_volume;
         minVol = std::min(minVol, volume);
         maxVol = std::max(maxVol, volume);
     }
@@ -171,22 +171,23 @@ void OrderFilterProxyModel::clearPriceFilter()
 
 bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
     {
-        QVariant leftData = sourceModel()->data(left);
-        QVariant rightData = sourceModel()->data(right);
+        const QVariant leftData = sourceModel()->data(left);
+        const QVariant rightData = sourceModel()->data(right);
 
         if (leftData.toString().endsWith("$")) { // price column
-            bool ok1, ok2;
-            double l = leftData.toString().removeLast().toDouble(&ok1);
-            double r = rightData.toString().removeLast().toDouble(&ok2);
+            bool ok1;
+            bool ok2;
+            const double l = leftData.toString().removeLast().toDouble(&ok1);
+            const double r = rightData.toString().removeLast().toDouble(&ok2);
 
             if (ok1 && ok2)
                 return l < r;
-            else qDebug() <<"double değil";
         }
         else if(leftData.canConvert<double>()){
-            bool ok1, ok2;
-            double l = leftData.toDouble(&ok1);
-            double r = rightData.toDouble(&ok2);
+            bool ok1;
+            bool ok2;
+            const double l = leftData.toDouble(&ok1);
+            const double r = rightData.toDouble(&ok2);
 
             if (ok1 && ok2)
                 return l < r;
@@ -198,13 +199,13 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
 
 bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    QModelIndex sourceIndex = sourceModel()->index(source_row, 0, source_parent);
+    const QModelIndex sourceIndex = sourceModel()->index(source_row, 0, source_parent);
     if (!sourceIndex.isValid()) {
         qDebug() << "source valid değil";
         return false;
     }
 
-    QVariant dataVariant = sourceModel()->data(sourceIndex, OrderRoles::RawDataRole);
+    const QVariant dataVariant = sourceModel()->data(sourceIndex, OrderRoles::RawDataRole);
     if (!dataVariant.canConvert<OrderData>()) {
         qDebug() << "filtreleme başarısız";
         return false;

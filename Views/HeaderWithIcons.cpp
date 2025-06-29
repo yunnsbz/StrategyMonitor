@@ -48,7 +48,7 @@ void HeaderWithIcons::paintSection(QPainter *painter, const QRect &rect, int log
 
     if (isSortIndicatorShown() && logicalIndex == sortIndicatorSection()) {
         QPolygon arrow;
-        QRect arrowRect = rect.adjusted(rect.width() - 14, 6, -4, -6); // sağ üst köşeye biraz içe
+        const QRect arrowRect = rect.adjusted(rect.width() - 14, 6, -4, -6); // sağ üst köşeye biraz içe
 
         if (sortIndicatorOrder() == Qt::AscendingOrder) {
             // ▲
