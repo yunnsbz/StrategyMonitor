@@ -5,6 +5,7 @@
 #include "OrdersViewModel.h"
 #include "OrderModel.h"
 #include "OrderFilterProxyModel.h"
+#include "StrategyFilterProxyModel.h"
 
 
 #include <QDebug>
@@ -34,19 +35,20 @@ QAbstractItemModel *MainViewModel::ordersModel()
     return OrdersVM->model();
 }
 
-void MainViewModel::SetStrategySelected(int strategy_id)
+void MainViewModel::setStrategySelected(int strategy_id)
 {
-    if(SelectedStrategies.contains(strategy_id)){
-        SelectedStrategies.remove(strategy_id);
-    }
-    else SelectedStrategies.insert(strategy_id);
-    OrdersVM->filter()->setSelectedStrategyIds(SelectedStrategies);
+    if(m_selectedStrategies.contains(strategy_id))
+        m_selectedStrategies.remove(strategy_id);
+    else
+        m_selectedStrategies.insert(strategy_id);
+
+    OrdersVM->filter()->setSelectedStrategyIds(m_selectedStrategies);
 }
 
-QSet<QString> MainViewModel::getStrategiesSelected()
+QSet<QString> MainViewModel::getSelectedStrategyNames()
 {
     QSet<QString> selectedNames;
-    for(int id : SelectedStrategies){
+    for(int id : m_selectedStrategies){
         QString name = StrategiesVM->getStrategy(id).strategy_name;
         if(!name.isEmpty()){
             selectedNames.insert(name);
@@ -60,7 +62,7 @@ void MainViewModel::setPriceFilter(double min, double max)
     OrdersVM->filter()->setPriceFilter(min, max);
 }
 
-QPair<double, double> MainViewModel::ordersPriceRange()
+QPair<double, double> MainViewModel::getOrdersPriceRange()
 {
     return OrdersVM->filter()->ordersPriceRange();
 }
@@ -78,6 +80,16 @@ void MainViewModel::setVolumeFilter(double min, double max)
 void MainViewModel::clearVolumeFilter()
 {
     OrdersVM->filter()->clearVolumeFilter();
+}
+
+void MainViewModel::setStrategyStateFilter(QString state)
+{
+    StrategiesVM->filter()->SetSelectedState(state);
+}
+
+void MainViewModel::clearStrategyFilter()
+{
+    StrategiesVM->filter()->clearStrategyFilter();
 }
 
 void MainViewModel::onStrategyDataReceived(const StrategyData &strategy)

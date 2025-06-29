@@ -7,7 +7,8 @@
 struct OrderData;
 struct StrategyData;
 
-class MockDataGenerator : public QObject{
+class MockDataGenerator : public QObject
+{
     Q_OBJECT
 public:
     MockDataGenerator();

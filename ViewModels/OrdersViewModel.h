@@ -8,7 +8,8 @@
 class OrderModel;
 class OrderFilterProxyModel;
 
-class OrdersViewModel : public QObject {
+class OrdersViewModel : public QObject
+{
     Q_OBJECT
 public:
     explicit OrdersViewModel(QObject *parent = nullptr);
