@@ -28,7 +28,7 @@ int OrderModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return m_columnCount;
+    return COLUMN_COUNT;
 }
 
 QVariant OrderModel::data(const QModelIndex &index, int role) const
@@ -43,7 +43,7 @@ QVariant OrderModel::data(const QModelIndex &index, int role) const
         return Qt::AlignCenter;
     }
 
-    // tableView'in kullanacağı DisplayRole:
+    // DisplayRole for tableView:
     if (role == Qt::DisplayRole) {
         auto keys = kHeaderLabels.keys();
         if (index.column() >= 0 && index.column() < keys.size()) {
@@ -80,7 +80,8 @@ QVariant OrderModel::headerData(int section, Qt::Orientation orientation, int ro
     if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
         return QVariant();
 
-    // key'lerin sırası sütunların sırasını belirtir. key'lerin değeri sütun sırasından bağımsızdır.
+    // The order of the keys specifies the order of the columns.
+    // The value of the keys is independent of the number of columns.
     auto keys = kHeaderLabels.keys();
     if (section >= 0 && section < keys.size())
         return kHeaderLabels[keys[section]];
@@ -93,13 +94,6 @@ void OrderModel::setStrategyNameResolver(StrategyNameResolver resolver)
     m_nameResolver = resolver;
 }
 
-void OrderModel::loadOrders(const QList<OrderData> &orders)
-{
-    beginResetModel();
-    m_orders = orders;
-    endResetModel();
-}
-
 void OrderModel::addOrder(const OrderData &order)
 {
     int newRow = m_orders.count();
@@ -108,17 +102,6 @@ void OrderModel::addOrder(const OrderData &order)
     endInsertRows();
 }
 
-void OrderModel::updateOrder(const OrderData &updatedOrder)
-{
-    for (int i = 0; i < m_orders.count(); ++i) {
-        if (m_orders[i].unique_order_id == updatedOrder.unique_order_id) {
-            m_orders[i] = updatedOrder;
-            // Sadece değişen satırın güncellenmesi için dataChanged sinyali
-            emit dataChanged(index(i, 0), index(i, m_columnCount - 1));
-            return;
-        }
-    }
-}
 
 void OrderModel::clearOrders()
 {

@@ -33,7 +33,7 @@ void OrderFilterProxyModel::setPriceFilter(double min, double max)
     invalidateFilter();
 }
 
-QPair<double, double> OrderFilterProxyModel::ordersPriceRange() const
+QPair<double, double> OrderFilterProxyModel::getOrdersPriceRange() const
 {
     double minPrice = std::numeric_limits<double>::max();
     double maxPrice = std::numeric_limits<double>::lowest();
@@ -50,7 +50,7 @@ QPair<double, double> OrderFilterProxyModel::ordersPriceRange() const
 
         OrderData order = rawVariant.value<OrderData>();
 
-        // filtrelenmemiş (strateji filtresi hariç) veri üzerinden aralık bul
+        // check only for unfiltered strategies
         if (!m_selectedStrategyIds.isEmpty() && !m_selectedStrategyIds.contains(order.unique_strategy_id))
             continue;
 
@@ -60,7 +60,7 @@ QPair<double, double> OrderFilterProxyModel::ordersPriceRange() const
     }
 
     if (minPrice == std::numeric_limits<double>::max())
-        return {0.0, 0.0};  // eşleşen satır yoksa
+        return {0.0, 0.0};
 
     return {minPrice, maxPrice};
 }
@@ -90,8 +90,7 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
         QVariant leftData = sourceModel()->data(left);
         QVariant rightData = sourceModel()->data(right);
 
-        // Kolon numarasına göre yalnızca sayısal sıralama gereken sütunları kontrol eder
-        if (left.column() == 3) { // price sütunu
+        if (left.column() == 3) { // price column
             bool ok1, ok2;
             double l = leftData.toString().removeLast().toDouble(&ok1);
             double r = rightData.toString().removeLast().toDouble(&ok2);
@@ -100,7 +99,7 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
                 return l < r;
             else qDebug() <<"double değil";
         }
-        else if(left.column() == 4) { // volume sütunu
+        else if(left.column() == 4) { // volume column
             QStringList leftParts = leftData.toString().split("/");
             QStringList rightParts = rightData.toString().split("/");
             try{
@@ -114,7 +113,7 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
             }
         }
 
-        // Diğer sütunlar için varsayılan sıralama
+        // use default order for other columns
         return QSortFilterProxyModel::lessThan(left, right);
     }
 
@@ -143,28 +142,27 @@ bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
 
 bool OrderFilterProxyModel::strategyFilter(OrderData order) const
 {
-    // Filtre aktif değilse veya seçili ID yoksa tüm satırları kabul et
+    // if filter is inactive or no strategies selected // if filter is inactive
     if (!m_strategyFilterActive || m_selectedStrategyIds.isEmpty()) {
         return true;
     }
 
-    // sadece strateji id'si uyuşanları ekle
+    // show only selected strategy orders
     return m_selectedStrategyIds.contains(order.unique_strategy_id);
 }
 
 bool OrderFilterProxyModel::priceFilter(OrderData order) const
 {
-    // Filtre aktif değilse
     if (!m_priceFilter.isActive) {
         return true;
     }
 
+    // show if order is in the range
     return order.price <= m_priceFilter.max && order.price >= m_priceFilter.min;
 }
 
 bool OrderFilterProxyModel::volumeFilter(OrderData order) const
 {
-    // Filtre aktif değilse
     if (!m_volumeFilter.isActive) {
         return true;
     }

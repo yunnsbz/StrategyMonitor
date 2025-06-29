@@ -16,10 +16,21 @@ public:
 
     void applyStrategyFilter(QSet<int> ids);
 
+    /**
+     * set price proxy filter between min and max price values.
+     * calls OrderFilterProxyModel
+     */
     void setPriceFilter(double min, double max);
-    QPair<double,double> getOrdersPriceRange();
     void clearPriceFilter();
+    /**
+     * checks unfiltred strategies and fetch min and max price values.
+     * Returns: min, max price Range.
+     */
+    QPair<double,double> getOrdersPriceRange();
 
+    /**
+     * values should be between 0 and 100 (percentage)
+     */
     void setVolumeFilter(double min, double max);
     void clearVolumeFilter();
 
@@ -27,6 +38,9 @@ public:
     OrderModel* orderModel();
     OrderFilterProxyModel* filter();
 
+    /**
+     * calls OrderModel
+     */
     void addOrder(const class OrderData& data);
 
 private:

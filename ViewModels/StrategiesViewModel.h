@@ -14,11 +14,18 @@ class StrategiesViewModel : public QObject
 public:
     explicit StrategiesViewModel(QObject *parent = nullptr);
 
-    // eğer strateji seçili değilse ekler seçili ise çıkartır.
+    /**
+     * if strategy allready selected then removes it from the set.
+     * if strategy is not in the set then inserts it.
+     */
     void setStrategySelected(QVariant data);
     QSet<int> getSelectedStrategyIds();
     QSet<QString> getSelectedStrategyNames();
 
+    /**
+     * used to show only one state type from strategies.
+     * there are two states: "Running" and "Paused".
+     */
     void setStrategyStateFilter(QString state);
     void clearStrategyFilter();
 

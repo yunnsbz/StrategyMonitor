@@ -25,7 +25,7 @@ void OrdersViewModel::setPriceFilter(double min, double max)
 
 QPair<double, double> OrdersViewModel::getOrdersPriceRange()
 {
-    return filter()->ordersPriceRange();
+    return filter()->getOrdersPriceRange();
 }
 
 void OrdersViewModel::clearPriceFilter()

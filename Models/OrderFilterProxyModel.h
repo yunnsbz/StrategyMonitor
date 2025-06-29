@@ -13,13 +13,27 @@ class OrderFilterProxyModel : public QSortFilterProxyModel
 public:
     explicit OrderFilterProxyModel(QObject *parent = nullptr);
 
+    /**
+     * use to show only selected list items from StrategyModel.
+     */
     void setSelectedStrategyIds(const QSet<int> &ids);
     void clearStrategyFilter();
 
+    /**
+     * set price proxy filter between min and max price values.
+     */
     void setPriceFilter(double min, double max);
     void clearPriceFilter();
-    QPair<double,double> ordersPriceRange() const;
 
+    /**
+     * checks unfiltred strategies and fetch min and max price values.
+     * Returns: min, max price Range.
+     */
+    QPair<double,double> getOrdersPriceRange() const;
+
+    /**
+     * values should be between 0 and 100 (percentage)
+     */
     void setVolumeFilter(double min, double max);
     void clearVolumeFilter();
 
@@ -37,6 +51,7 @@ private:
         bool isActive = false;
     }
     m_priceFilter;
+
     struct VolumeFilter{
         double min = 0;
         double max = 0;

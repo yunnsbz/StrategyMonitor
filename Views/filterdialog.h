@@ -35,6 +35,7 @@ private:
 
     double m_minVal = 0;
     double m_maxVal = 0;
+
     double m_storedMinVal = 0;
     double m_storedMaxVal = 0;
 };

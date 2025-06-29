@@ -15,7 +15,7 @@ public:
     double filled_volume;
 
     enum class Side : char { Buy, Sell };
-    Q_ENUM(Side) // Side enum'unu Qt meta veri sistemine kaydeder
+    Q_ENUM(Side)
 
     Side side;
 };

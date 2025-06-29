@@ -11,7 +11,10 @@ class StrategyFilterProxyModel : public QSortFilterProxyModel
 
 public:
     explicit StrategyFilterProxyModel(QObject *parent = nullptr);
-
+    /**
+     * used to show only one state type from strategies.
+     * there are two states: "Running" and "Paused".
+     */
     void setSelectedState(QString state);
     void clearStrategyFilter();
 

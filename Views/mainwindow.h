@@ -36,13 +36,13 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    StrategiesViewModel* strategiesVM;
-    OrdersViewModel* ordersVM;
+    StrategiesViewModel* m_strategiesVM;
+    OrdersViewModel* m_ordersVM;
 
-    DataReceiver* dataReceiver;
+    DataReceiver* m_dataReceiver;
 
-    FilterDialog* priceDialog;
-    FilterDialog* volumeDialog;
+    FilterDialog* m_priceDialog;
+    FilterDialog* m_volumeDialog;
 
     static constexpr int SIDE_COLUMN_INDEX = 2;
     static constexpr int PRICE_COLUMN_INDEX = 3;

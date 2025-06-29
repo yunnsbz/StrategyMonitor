@@ -24,7 +24,7 @@ FilterDialog::FilterDialog(QWidget *parent) :
         }
     });
 
-    // filtre sıfırlama:
+    // clear filter
     connect(ui->buttonBox->button(QDialogButtonBox::RestoreDefaults), &QPushButton::clicked, this, [this]() {
         m_filterCleared = true;
         m_filterActive = false;
@@ -51,7 +51,7 @@ double FilterDialog::maxValue() const {
 
 void FilterDialog::setInfoText(QString text)
 {
-    ui->labelInfo->setText(text);
+    setWindowTitle(text);
 }
 
 void FilterDialog::setRange(double min, double max, bool useParamForLimit)
@@ -87,11 +87,11 @@ bool FilterDialog::wasClearFilterPressed() const
 
 void FilterDialog::setInitialValues()
 {
-    if(m_filterActive){
+    // stored value will be used if previously user choosed to apply filter.
+    if (m_filterActive) {
         ui->doubleSpinBoxMin->setValue(m_storedMinVal);
         ui->doubleSpinBoxMax->setValue(m_storedMaxVal);
-    }
-    else{
+    } else {
         ui->doubleSpinBoxMin->setValue(m_minVal);
         ui->doubleSpinBoxMax->setValue(m_maxVal);
     }
