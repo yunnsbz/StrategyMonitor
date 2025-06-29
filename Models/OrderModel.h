@@ -32,7 +32,7 @@ public:
 private:
     QList<OrderData> m_orders;
 
-    int ColumnCount = 5;
+    int m_columnCount = 5;
 
     StrategyNameResolver m_nameResolver;
 };

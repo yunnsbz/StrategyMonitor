@@ -9,9 +9,9 @@ StrategyFilterProxyModel::StrategyFilterProxyModel(QObject *parent)
 
 }
 
-void StrategyFilterProxyModel::SetSelectedState(QString state)
+void StrategyFilterProxyModel::setSelectedState(QString state)
 {
-    SelectedState = state;
+    m_selectedState = state;
     m_strategyFilterActive = true;
     invalidateFilter();
 }
@@ -28,7 +28,7 @@ bool StrategyFilterProxyModel::filterAcceptsRow(int source_row, const QModelInde
         QModelIndex stateIndex = sourceModel()->index(source_row, 0, source_parent);
         QString state = sourceModel()->data(stateIndex, StrategyRoles::StateRole).toString();
 
-        return state == SelectedState;
+        return state == m_selectedState;
     }
     else
         return true;

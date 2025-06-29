@@ -12,7 +12,7 @@ class StrategyFilterProxyModel : public QSortFilterProxyModel
 public:
     explicit StrategyFilterProxyModel(QObject *parent = nullptr);
 
-    void SetSelectedState(QString state);
+    void setSelectedState(QString state);
     void clearStrategyFilter();
 
 protected:
@@ -22,7 +22,7 @@ private:
     QSet<int> m_selectedStrategyIds;
     bool m_strategyFilterActive = false;
 
-    QString SelectedState = "Running";
+    QString m_selectedState = "Running";
 };
 
 #endif // STRATEGYFILTERPROXYMODEL_H

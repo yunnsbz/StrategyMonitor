@@ -5,6 +5,8 @@ add_library(ViewModels
     StrategiesViewModel.cpp
     OrdersViewModel.h
     OrdersViewModel.cpp
+    DataReceiver.h
+    DataReceiver.cpp
 
 
 )

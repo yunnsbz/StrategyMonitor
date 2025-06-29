@@ -28,7 +28,7 @@ int OrderModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return ColumnCount;
+    return m_columnCount;
 }
 
 QVariant OrderModel::data(const QModelIndex &index, int role) const
@@ -114,7 +114,7 @@ void OrderModel::updateOrder(const OrderData &updatedOrder)
         if (m_orders[i].unique_order_id == updatedOrder.unique_order_id) {
             m_orders[i] = updatedOrder;
             // Sadece değişen satırın güncellenmesi için dataChanged sinyali
-            emit dataChanged(index(i, 0), index(i, ColumnCount - 1));
+            emit dataChanged(index(i, 0), index(i, m_columnCount - 1));
             return;
         }
     }
