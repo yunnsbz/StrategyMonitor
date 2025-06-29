@@ -3,7 +3,8 @@
 
 #include <QObject>
 
-namespace OrderRoles {
+namespace OrderRoles
+{
     Q_NAMESPACE
 
     enum Role {

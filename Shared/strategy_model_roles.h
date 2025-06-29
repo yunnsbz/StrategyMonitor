@@ -3,7 +3,8 @@
 
 #include <QObject>
 
-namespace StrategyRoles {
+namespace StrategyRoles
+{
     Q_NAMESPACE
 
     enum Role {
