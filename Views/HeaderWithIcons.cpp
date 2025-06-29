@@ -13,6 +13,7 @@ HeaderWithIcons::HeaderWithIcons(Qt::Orientation orientation, QWidget *parent)
     setCascadingSectionResizes(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setDefaultSectionSize(120);
+    setSectionResizeMode(QHeaderView::Stretch);
 }
 
 void HeaderWithIcons::setIconForSection(int logicalIndex, const QIcon &icon)

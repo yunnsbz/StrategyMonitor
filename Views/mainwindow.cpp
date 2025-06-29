@@ -120,7 +120,7 @@ void MainWindow::onPriceFilterRequested()
 
     m_priceDialog->setRange(priceRange.first, priceRange.second);
 
-    m_priceDialog->setTitleText("Set Price Range Between Min and Max values:");
+    m_priceDialog->setTitleText("Set Price Range Between Min and Max values");
 
     if (m_priceDialog->exec() == QDialog::Accepted) {
         if (m_priceDialog->wasClearFilterPressed()) {
@@ -139,7 +139,7 @@ void MainWindow::onFiledVolFilterRequested()
 
     m_filledVolDialog->setRange(volRange.first, volRange.second);
 
-    m_filledVolDialog->setTitleText("Set Volume percentage:");
+    m_filledVolDialog->setTitleText("Set Volume Range Between Min and Max values");
 
     if (m_filledVolDialog->exec() == QDialog::Accepted) {
         if (m_filledVolDialog->wasClearFilterPressed()) {
@@ -158,7 +158,7 @@ void MainWindow::onActiveVolFilterRequested()
 
     m_activeVolDialog->setRange(volRange.first, volRange.second);
 
-    m_activeVolDialog->setTitleText("Set Volume percentage:");
+    m_activeVolDialog->setTitleText("Set Volume Range Between Min and Max values");
 
     if (m_activeVolDialog->exec() == QDialog::Accepted) {
         if (m_activeVolDialog->wasClearFilterPressed()) {

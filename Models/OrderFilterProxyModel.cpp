@@ -190,7 +190,6 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
 
             if (ok1 && ok2)
                 return l < r;
-            else qDebug() <<"double değil";
         }
 
         // use default order for other columns
