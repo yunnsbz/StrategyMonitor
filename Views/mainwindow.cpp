@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
 
+    connect(ui->pushButton_DeselectAll, &QPushButton::clicked, this, [this](){
+       ui->StrategiesListView->clearSelection();
+    });
+
 }
 
 MainWindow::~MainWindow()
