@@ -26,6 +26,10 @@ It mimics the behavior of a live trading monitor, displaying strategies and thei
 - **Interactive UI**  
   User-friendly layout with informative tooltips and visual status indicators.
 
+## Preview
+
+![App Screenshot](https://github.com/yunnsbz/StrategyMonitor/blob/main/preview.png)
+
 ## Tech Stack
 
 - C++
