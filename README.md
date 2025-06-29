@@ -28,6 +28,9 @@ It mimics the behavior of a live trading monitor, displaying strategies and thei
 
 ## Preview
 
+> ⚠️ **Note:** This UI was designed and tested with Windows dark theme enabled.  
+> If you are using light mode, visual appearance (especially color contrasts) may not be optimal.
+
 ![App Screenshot](https://github.com/yunnsbz/StrategyMonitor/blob/main/preview.png)
 
 ## Tech Stack
