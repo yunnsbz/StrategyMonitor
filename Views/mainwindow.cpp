@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // splitter:
-    ui->splitter->setSizes({400,600});
+    ui->splitter->setSizes({200,600});
     ui->splitter->widget(0)->setMinimumWidth(320);
 
     // listView:
