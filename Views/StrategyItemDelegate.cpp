@@ -13,27 +13,27 @@ StrategyDelegate::StrategyDelegate(QObject *parent)
 
 QSize StrategyDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
 {
-    return QSize(280, 70);
+    return {280, 70};
 }
 
 void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     // values
-    QString strategyId = index.data(StrategyRoles::IdRole).toString();
-    QString name = index.data(StrategyRoles::NameRole).toString();
-    QString type = index.data(StrategyRoles::TypeRole).toString();
-    QString state = index.data(StrategyRoles::StateRole).toString();
+    const QString strategyId = index.data(StrategyRoles::IdRole).toString();
+    const QString name = index.data(StrategyRoles::NameRole).toString();
+    const QString type = index.data(StrategyRoles::TypeRole).toString();
+    const QString state = index.data(StrategyRoles::StateRole).toString();
 
     // item states
-    bool isSelected = option.state & QStyle::State_Selected;
-    bool isMouseOver = option.state & QStyle::State_MouseOver;
+    const bool isSelected = option.state & QStyle::State_Selected;
+    const bool isMouseOver = option.state & QStyle::State_MouseOver;
 
     painter->save();
-    QRect rect = option.rect;
+    const QRect rect = option.rect;
 
-    int topSpace = 5;
-    int leftSpace = 10;
-    int rightSpace = 10;
+    const int topSpace = 5;
+    const int leftSpace = 10;
+    const int rightSpace = 10;
 
     // background
     QPainterPath backgroundPath;
@@ -59,14 +59,14 @@ void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     painter->setPen(QColor(0xffffff));
 
     // sol seçim ikonu:
-    QRect leftIconRect(rect.left() + 5 + leftSpace, rect.top() + 15 + topSpace, 30, 30);
+    const QRect leftIconRect(rect.left() + 5 + leftSpace, rect.top() + 15 + topSpace, 30, 30);
 
     // Seçime göre ikon:
     if (isSelected){
-        QIcon icon(":/icons/Views/check_box.svg");
+        const QIcon icon(":/icons/Views/check_box.svg");
         icon.paint(painter, leftIconRect, Qt::AlignCenter);
     } else {
-        QIcon icon(":/icons/Views/check_box_blank.svg");
+        const QIcon icon(":/icons/Views/check_box_blank.svg");
         icon.paint(painter, leftIconRect, Qt::AlignCenter);
     }
 
@@ -77,33 +77,33 @@ void StrategyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     boldFont.setPixelSize(20);
 
     painter->setFont(boldFont);
-    QRect nameRect = QRect(leftIconRect.right() + 10, rect.top() + 5 + topSpace, 110, 30);
+    const QRect nameRect = QRect(leftIconRect.right() + 10, rect.top() + 5 + topSpace, 110, 30);
     painter->drawText(nameRect, name);
 
     QFont smallFont = option.font;
     smallFont.setPointSize(7);
     painter->setFont(smallFont);
 
-    QRect idRect = QRect(leftIconRect.right() + 10, rect.top() + 35 + topSpace, 40, 15);
+    const QRect idRect = QRect(leftIconRect.right() + 10, rect.top() + 35 + topSpace, 40, 15);
     painter->drawText(idRect, "id: " + strategyId);
 
-    QRect typeRect = QRect(idRect.right() + 10, rect.top() + 35 + topSpace, 80, 15);
+    const QRect typeRect = QRect(idRect.right() + 10, rect.top() + 35 + topSpace, 80, 15);
     painter->drawText(typeRect, type);
 
     painter->setFont(option.font);
 
     // sağ state ikonu
-    QRect rightIconRect(rect.right() - 35 - rightSpace, rect.top() + 15 + topSpace, 30, 30);
+    const QRect rightIconRect(rect.right() - 35 - rightSpace, rect.top() + 15 + topSpace, 30, 30);
 
     if(state == "Running") {
-        QIcon icon(":/icons/Views/square_running.svg");
+        const QIcon icon(":/icons/Views/square_running.svg");
         icon.paint(painter, rightIconRect, Qt::AlignCenter);
     } else {
-        QIcon icon(":/icons/Views/square_paused.svg");
+        const QIcon icon(":/icons/Views/square_paused.svg");
         icon.paint(painter, rightIconRect, Qt::AlignCenter);
     }
 
-    QRect stateRect = QRect(rightIconRect.left() - 45, rect.top() + 20 + topSpace, 45, 20);
+    const QRect stateRect = QRect(rightIconRect.left() - 45, rect.top() + 20 + topSpace, 45, 20);
     painter->drawText(stateRect, state);
 
     painter->restore();

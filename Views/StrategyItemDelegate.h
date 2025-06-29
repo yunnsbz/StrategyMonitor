@@ -10,7 +10,7 @@ class StrategyDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    StrategyDelegate(QObject *parent = nullptr);
+    explicit StrategyDelegate(QObject *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
