@@ -35,7 +35,7 @@ It mimics the behavior of a live trading monitor, displaying strategies and thei
 
 ## Tech Stack
 
-- C++
+- C++17
 - Qt 6 (Widgets)
 - CMake
 - Model/View architecture with filtering and proxy models
