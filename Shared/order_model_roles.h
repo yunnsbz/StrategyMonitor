@@ -14,8 +14,9 @@ namespace OrderRoles
         OrderIdRole         = Qt::UserRole + 2,
         BuySellRole         = Qt::UserRole + 3,
         PriceRole           = Qt::UserRole + 4,
-        VolumeRole          = Qt::UserRole + 5,
-        RawDataRole         = Qt::UserRole + 6,
+        FilledVolumeRole    = Qt::UserRole + 5,
+        ActiveVolumeRole    = Qt::UserRole + 6,
+        RawDataRole         = Qt::UserRole + 7,
     };
     Q_ENUM_NS(Role)
 }

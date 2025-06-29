@@ -29,19 +29,39 @@ QPair<double, double> OrdersViewModel::getOrdersPriceRange()
     return filter()->getOrdersPriceRange();
 }
 
+QPair<int, int> OrdersViewModel::getFilledVolRange()
+{
+    return filter()->getFilledVolRange();
+}
+
+QPair<int, int> OrdersViewModel::getActiveVolRange()
+{
+    return filter()->getOrdersPriceRange();
+}
+
 void OrdersViewModel::clearPriceFilter()
 {
     filter()->clearPriceFilter();
 }
 
-void OrdersViewModel::setVolumeFilter(double min, double max)
+void OrdersViewModel::setFilledVolFilter(double min, double max)
 {
-    filter()->setVolumeFilter(min, max);
+    filter()->setFilledVolFilter(min, max);
 }
 
-void OrdersViewModel::clearVolumeFilter()
+void OrdersViewModel::setActiveVolFilter(double min, double max)
 {
-    filter()->clearVolumeFilter();
+    filter()->setActiveVolFilter(min, max);
+}
+
+void OrdersViewModel::clearActiveVolFilter()
+{
+    filter()->clearActiveVolFilter();
+}
+
+void OrdersViewModel::clearFilledVolFilter()
+{
+    filter()->clearFilledVolFilter();
 }
 
 QAbstractItemModel* OrdersViewModel::model() {

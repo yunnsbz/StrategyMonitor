@@ -29,14 +29,18 @@ public:
      * checks unfiltred strategies and fetch min and max price values.
      * Returns: min, max price Range.
      */
-    QPair<double,double> getOrdersPriceRange() const;
+    QPair<double, double> getOrdersPriceRange() const;
+    QPair<int, int> getFilledVolRange() const;
+    QPair<int, int> getActiveVolRange() const;
 
     /**
      * values should be between 0 and 100 (percentage)
      */
-    void setVolumeFilter(double min, double max);
-    void clearVolumeFilter();
+    void setFilledVolFilter(double min, double max);
+    void clearFilledVolFilter();
 
+    void setActiveVolFilter(double min, double max);
+    void clearActiveVolFilter();
 
 signals:
     /**
@@ -65,12 +69,13 @@ private:
         double max = 0;
         bool isActive = false;
     }
-    m_volumeFilter;
+    m_filledVolFilter, m_activeVolFilter;
 
 
     bool strategyFilter(OrderData) const;
     bool priceFilter(OrderData) const;
-    bool volumeFilter(OrderData) const;
+    bool filledVolumeFilter(OrderData) const;
+    bool activeVolumeFilter(OrderData) const;
 };
 
 

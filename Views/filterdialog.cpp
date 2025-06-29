@@ -54,25 +54,16 @@ void FilterDialog::setTitleText(QString text)
     setWindowTitle(text);
 }
 
-void FilterDialog::setRange(double min, double max, bool useParamForLimit)
+void FilterDialog::setRange(double min, double max)
 {
     ui->labelMinVal->setText(QString("Min Value: %1").arg(min));
     ui->labelMaxVal->setText(QString("Max Value: %1").arg(max));
 
-    if(useParamForLimit){
-        ui->doubleSpinBoxMin->setMinimum(min);
-        ui->doubleSpinBoxMin->setMaximum(max);
+    ui->doubleSpinBoxMin->setMinimum(0);
+    ui->doubleSpinBoxMin->setMaximum(10'000'000);
 
-        ui->doubleSpinBoxMax->setMinimum(min);
-        ui->doubleSpinBoxMax->setMaximum(max);
-    }
-    else{
-        ui->doubleSpinBoxMin->setMinimum(0);
-        ui->doubleSpinBoxMin->setMaximum(10'000'000);
-
-        ui->doubleSpinBoxMax->setMinimum(0);
-        ui->doubleSpinBoxMax->setMaximum(10'000'000);
-    }
+    ui->doubleSpinBoxMax->setMinimum(0);
+    ui->doubleSpinBoxMax->setMaximum(10'000'000);
 
     m_minVal = min;
     m_maxVal = max;

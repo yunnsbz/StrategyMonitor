@@ -66,19 +66,99 @@ QPair<double, double> OrderFilterProxyModel::getOrdersPriceRange() const
     return {minPrice, maxPrice};
 }
 
-void OrderFilterProxyModel::setVolumeFilter(double min, double max)
+QPair<int, int> OrderFilterProxyModel::getFilledVolRange() const
 {
-    m_volumeFilter.min = min;
-    m_volumeFilter.max = max;
-    m_volumeFilter.isActive = true;
-    emit filterChanged(OrderRoles::VolumeRole, true);
+    double minVol = std::numeric_limits<double>::max();
+    double maxVol = std::numeric_limits<double>::lowest();
+
+    const QAbstractItemModel* model = sourceModel();
+    const int rowCount = model->rowCount();
+
+    for (int row = 0; row < rowCount; ++row) {
+        QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
+        QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
+
+        if (!rawVariant.canConvert<OrderData>())
+            continue;
+
+        OrderData order = rawVariant.value<OrderData>();
+
+        // check only for unfiltered strategies
+        if (!m_selectedStrategyIds.isEmpty() && !m_selectedStrategyIds.contains(order.unique_strategy_id))
+            continue;
+
+        double volume = order.filled_volume;
+        minVol = std::min(minVol, volume);
+        maxVol = std::max(maxVol, volume);
+    }
+
+    if (minVol == std::numeric_limits<double>::max())
+        return {0.0, 0.0};
+
+    return {minVol, maxVol};
+}
+
+QPair<int, int> OrderFilterProxyModel::getActiveVolRange() const
+{
+    double minVol = std::numeric_limits<double>::max();
+    double maxVol = std::numeric_limits<double>::lowest();
+
+    const QAbstractItemModel* model = sourceModel();
+    const int rowCount = model->rowCount();
+
+    for (int row = 0; row < rowCount; ++row) {
+        QModelIndex sourceIndex = model->index(row, 0); // herhangi bir sütun olur
+        QVariant rawVariant = model->data(sourceIndex, OrderRoles::RawDataRole);
+
+        if (!rawVariant.canConvert<OrderData>())
+            continue;
+
+        OrderData order = rawVariant.value<OrderData>();
+
+        // check only for unfiltered strategies
+        if (!m_selectedStrategyIds.isEmpty() && !m_selectedStrategyIds.contains(order.unique_strategy_id))
+            continue;
+
+        double volume = order.active_volume;
+        minVol = std::min(minVol, volume);
+        maxVol = std::max(maxVol, volume);
+    }
+
+    if (minVol == std::numeric_limits<double>::max())
+        return {0.0, 0.0};
+
+    return {minVol, maxVol};
+}
+
+void OrderFilterProxyModel::setFilledVolFilter(double min, double max)
+{
+    m_filledVolFilter.min = min;
+    m_filledVolFilter.max = max;
+    m_filledVolFilter.isActive = true;
+    emit filterChanged(OrderRoles::FilledVolumeRole, true);
     invalidateFilter();
 }
 
-void OrderFilterProxyModel::clearVolumeFilter()
+void OrderFilterProxyModel::clearFilledVolFilter()
 {
-    m_volumeFilter.isActive = false;
-    emit filterChanged(OrderRoles::VolumeRole, false);
+    m_filledVolFilter.isActive = false;
+    emit filterChanged(OrderRoles::FilledVolumeRole, false);
+    invalidateFilter();
+}
+
+void OrderFilterProxyModel::setActiveVolFilter(double min, double max)
+{
+    m_activeVolFilter.min = min;
+    m_activeVolFilter.max = max;
+    m_activeVolFilter.isActive = true;
+    emit filterChanged(OrderRoles::ActiveVolumeRole, true);
+    invalidateFilter();
+}
+
+void OrderFilterProxyModel::clearActiveVolFilter()
+{
+    m_activeVolFilter.isActive = false;
+    emit filterChanged(OrderRoles::ActiveVolumeRole, false);
     invalidateFilter();
 }
 
@@ -103,19 +183,14 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
                 return l < r;
             else qDebug() <<"double değil";
         }
-        else if(leftData.toString().contains("%")) { // volume column
+        else if(leftData.canConvert<double>()){
+            bool ok1, ok2;
+            double l = leftData.toDouble(&ok1);
+            double r = rightData.toDouble(&ok2);
 
-            QString percentageL = leftData.toString().right(5);
-            QString percentageR = rightData.toString().right(5);
-            try{
-                double l = percentageL.toDouble();
-                double r = percentageR.toDouble();
-
+            if (ok1 && ok2)
                 return l < r;
-            }
-            catch(const std::exception& ex){
-                qDebug() << "error while sorting volume";
-            }
+            else qDebug() <<"double değil";
         }
 
         // use default order for other columns
@@ -141,7 +216,8 @@ bool OrderFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
     return
         strategyFilter(order) &&
         priceFilter(order) &&
-        volumeFilter(order);
+        filledVolumeFilter(order) &&
+        activeVolumeFilter(order);
 
 }
 
@@ -166,13 +242,18 @@ bool OrderFilterProxyModel::priceFilter(OrderData order) const
     return order.price <= m_priceFilter.max && order.price >= m_priceFilter.min;
 }
 
-bool OrderFilterProxyModel::volumeFilter(OrderData order) const
+bool OrderFilterProxyModel::filledVolumeFilter(OrderData order) const
 {
-    if (!m_volumeFilter.isActive) {
+    if (!m_filledVolFilter.isActive) {
         return true;
     }
+    return order.filled_volume >= m_filledVolFilter.min && order.filled_volume <= m_filledVolFilter.max;
+}
 
-    double persentage = (order.filled_volume / order.active_volume) * 100;
-
-    return persentage <= m_volumeFilter.max && persentage >= m_volumeFilter.min;
+bool OrderFilterProxyModel::activeVolumeFilter(OrderData order) const
+{
+    if (!m_activeVolFilter.isActive) {
+        return true;
+    }
+    return order.active_volume >= m_activeVolFilter.min && order.active_volume <= m_activeVolFilter.max;
 }

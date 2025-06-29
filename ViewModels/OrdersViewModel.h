@@ -27,12 +27,17 @@ public:
      * Returns: min, max price Range.
      */
     QPair<double,double> getOrdersPriceRange();
+    QPair<int, int> getFilledVolRange();
+    QPair<int, int> getActiveVolRange();
 
     /**
      * values should be between 0 and 100 (percentage)
      */
-    void setVolumeFilter(double min, double max);
-    void clearVolumeFilter();
+    void setFilledVolFilter(double min, double max);
+    void clearFilledVolFilter();
+
+    void setActiveVolFilter(double min, double max);
+    void clearActiveVolFilter();
 
     QAbstractItemModel* model();
     OrderModel* orderModel();

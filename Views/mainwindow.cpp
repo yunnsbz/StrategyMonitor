@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_strategiesVM(new StrategiesViewModel(this)),
     m_dataReceiver(new DataReceiver(m_strategiesVM, m_ordersVM)),
     m_priceDialog(new FilterDialog(this)),
-    m_volumeDialog(new FilterDialog(this)),
+    m_filledVolDialog(new FilterDialog(this)),
+    m_activeVolDialog(new FilterDialog(this)),
     m_header(new HeaderWithIcons(Qt::Horizontal, this))
 {
     ui->setupUi(this);
@@ -64,8 +65,10 @@ MainWindow::MainWindow(QWidget *parent)
         // othervise columns can only change in the OrderModel (kHeaderLabels)
         if (column == m_ordersVM->orderModel()->getColumnIndex(OrderRoles::PriceRole))
             onPriceFilterRequested();
-        else if(column == m_ordersVM->orderModel()->getColumnIndex(OrderRoles::VolumeRole))
-            onVolumeFilterRequested();
+        else if(column == m_ordersVM->orderModel()->getColumnIndex(OrderRoles::FilledVolumeRole))
+            onFiledVolFilterRequested();
+        else if(column == m_ordersVM->orderModel()->getColumnIndex(OrderRoles::ActiveVolumeRole))
+            onActiveVolFilterRequested();
     });
 
     connect(ui->pushButtonDeselectAll, &QPushButton::clicked, this, [this](){
@@ -130,19 +133,40 @@ void MainWindow::onPriceFilterRequested()
     }
 }
 
-void MainWindow::onVolumeFilterRequested()
+void MainWindow::onFiledVolFilterRequested()
 {
-    m_volumeDialog->setRange(0, 100, true);
+    auto volRange = m_ordersVM->getFilledVolRange();
 
-    m_volumeDialog->setTitleText("Set Volume percentage:");
+    m_filledVolDialog->setRange(volRange.first, volRange.second);
 
-    if (m_volumeDialog->exec() == QDialog::Accepted) {
-        if (m_volumeDialog->wasClearFilterPressed()) {
-            m_ordersVM->clearVolumeFilter();
+    m_filledVolDialog->setTitleText("Set Volume percentage:");
+
+    if (m_filledVolDialog->exec() == QDialog::Accepted) {
+        if (m_filledVolDialog->wasClearFilterPressed()) {
+            m_ordersVM->clearFilledVolFilter();
         } else {
-            double min = m_volumeDialog->minValue();
-            double max = m_volumeDialog->maxValue();
-            m_ordersVM->setVolumeFilter(min, max);
+            double min = m_filledVolDialog->minValue();
+            double max = m_filledVolDialog->maxValue();
+            m_ordersVM->setFilledVolFilter(min, max);
+        }
+    }
+}
+
+void MainWindow::onActiveVolFilterRequested()
+{
+    auto volRange = m_ordersVM->getActiveVolRange();
+
+    m_activeVolDialog->setRange(volRange.first, volRange.second);
+
+    m_activeVolDialog->setTitleText("Set Volume percentage:");
+
+    if (m_activeVolDialog->exec() == QDialog::Accepted) {
+        if (m_activeVolDialog->wasClearFilterPressed()) {
+            m_ordersVM->clearActiveVolFilter();
+        } else {
+            double min = m_activeVolDialog->minValue();
+            double max = m_activeVolDialog->maxValue();
+            m_ordersVM->setActiveVolFilter(min, max);
         }
     }
 }
@@ -211,7 +235,7 @@ void MainWindow::on_actionHowSimulationWorks_triggered()
 void MainWindow::on_actionHowToUse_triggered()
 {
     QString infoText =
-            "• Right click on the table header titles to filter. (only on price and volume)\n"
+            "• Right click on the table header titles to filter. (only on price and volumes)\n"
             "• Select the range from the popup menu and apply the filter.\n"
             "• To remove the filter, open the filter window again and click restore defaults.\n"
             "• Click on the headings to sort the table.\n"

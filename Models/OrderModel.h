@@ -41,7 +41,7 @@ public:
 private:
     QList<OrderData> m_orders;
 
-    static constexpr int COLUMN_COUNT = 5;
+    static constexpr int COLUMN_COUNT = 6;
 
     QMap<int,int> roleToColumnMap;
     QMap<int,int> columnToRoleMap;

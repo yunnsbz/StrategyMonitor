@@ -35,7 +35,8 @@ private slots:
     void onMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected);
 
     void onPriceFilterRequested();
-    void onVolumeFilterRequested();
+    void onFiledVolFilterRequested();
+    void onActiveVolFilterRequested();
 
     void onOrderFilterChanged(int column, bool state);
 
@@ -58,7 +59,8 @@ private:
     DataReceiver* m_dataReceiver;
 
     FilterDialog* m_priceDialog;
-    FilterDialog* m_volumeDialog;
+    FilterDialog* m_filledVolDialog;
+    FilterDialog* m_activeVolDialog;
 
     HeaderWithIcons* m_header;
 
