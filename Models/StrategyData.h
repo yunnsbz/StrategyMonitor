@@ -2,13 +2,24 @@
 #define STRATEGYDATA_H
 
 #include <QString>
+#include <QObject>
+#include <QMetaType>
 
 struct StrategyData
 {
+    Q_GADGET
     int unique_strategy_id;
-    enum class Type { StrategyType1, StrategyType2 } type;
     QString strategy_name;
-    enum class State : char { Paused, Running } state;
+
+    enum class Type { StrategyType1, StrategyType2 };
+    Q_ENUM(Type)
+    Type type;
+
+    enum class State : char { Paused, Running };
+    Q_ENUM(State)
+    State state;
 };
+
+Q_DECLARE_METATYPE(StrategyData)
 
 #endif // STRATEGYDATA_H

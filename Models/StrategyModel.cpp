@@ -29,6 +29,8 @@ QVariant StrategyModel::data(const QModelIndex &index, int role) const
         return (s.type == StrategyData::Type::StrategyType1 ? "StrategyType1" : "StrategyType2");
     case StrategyRoles::StateRole:
         return (s.state == StrategyData::State::Running ? "Running" : "Paused");
+    case StrategyRoles::RawDataRole:
+        return QVariant::fromValue(s);
     default:
         return QVariant();
     }

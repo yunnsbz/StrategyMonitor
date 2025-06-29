@@ -6,7 +6,7 @@
 
 struct OrderData
 {
-    Q_GADGET // Qt meta veri sistemi için Q_GADGET kullanıyoruz (QObject türetmesi gerekmez)
+    Q_GADGET
 public:
     int unique_order_id;
     int unique_strategy_id;
@@ -20,7 +20,6 @@ public:
     Side side;
 };
 
-// OrderData'yı QVariant ile kullanılabilir hale getirmek için meta tip kaydı
 Q_DECLARE_METATYPE(OrderData)
 
 #endif // ORDERDATA_H
