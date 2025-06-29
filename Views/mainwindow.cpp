@@ -12,6 +12,8 @@
 #include "order_model_roles.h"
 #include "strategy_model_roles.h"
 
+#include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent)
     :
     QMainWindow(parent),
@@ -172,6 +174,10 @@ void MainWindow::onSelectedStrategiesChanged()
             output.removeLast();
         }
 
+        if (output.length() >= 50) {
+            output = output.left(50);
+            output += "...";
+        }
         output += ")";
         ui->labelSelectedStrategies->setText(output);
     }
@@ -189,3 +195,28 @@ void MainWindow::onStrategyFilterChanged()
         m_strategiesVM->setStrategyStateFilter("Running");
     }
 }
+
+void MainWindow::on_actionHowSimulationWorks_triggered()
+{
+    QString infoText =
+            "How Simulation Works:\n\n"
+            "• QTimer triggers the creation of a new strategy and order every few seconds.\n"
+            "• These strategies and orders are created with completely random ranges and values.\n"
+            "• The data in the view model is received with the receiver and transferred to the models.\n";
+
+        QMessageBox::information(this, "How Simulation Works", infoText);
+}
+
+
+void MainWindow::on_actionHowToUse_triggered()
+{
+    QString infoText =
+            "• Right click on the table header titles to filter. (only on price and volume)\n"
+            "• Select the range from the popup menu and apply the filter.\n"
+            "• To remove the filter, open the filter window again and click restore defaults.\n"
+            "• Click on the headings to sort the table.\n"
+            "• You can filter strategies based on their status.\n";
+
+        QMessageBox::information(this, "How To Use", infoText);
+}
+

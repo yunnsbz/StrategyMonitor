@@ -45,6 +45,10 @@ private slots:
      */
     void onStrategyFilterChanged();
 
+    void on_actionHowSimulationWorks_triggered();
+
+    void on_actionHowToUse_triggered();
+
 private:
     Ui::MainWindow *ui;
 
