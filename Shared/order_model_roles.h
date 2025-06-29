@@ -6,7 +6,9 @@
 namespace OrderRoles
 {
     Q_NAMESPACE
-
+    /**
+     * you can change the values here and the order of the table column will change accordingly
+     */
     enum Role {
         StrategyNameRole    = Qt::UserRole + 1,
         OrderIdRole         = Qt::UserRole + 2,

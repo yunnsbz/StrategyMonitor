@@ -14,7 +14,10 @@ class OrderModel : public QAbstractTableModel
 public:
     explicit OrderModel(QObject *parent = nullptr);
 
-    // header data
+    /**
+     * header data.
+     * you can change the column order with OrderRoles enum.
+     */
     static const QMap<int, QString> kHeaderLabels;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -30,11 +33,18 @@ public:
     void addOrder(const OrderData &order);
     void clearOrders();
 
+    /*
+     * returns -1 if the role does not exits
+     */
+    int getColumnIndex(int role);
+
 private:
     QList<OrderData> m_orders;
 
     static constexpr int COLUMN_COUNT = 5;
 
+    QMap<int,int> roleToColumnMap;
+    QMap<int,int> columnToRoleMap;
     StrategyNameResolver m_nameResolver;
 };
 

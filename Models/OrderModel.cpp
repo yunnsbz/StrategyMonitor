@@ -7,6 +7,11 @@ OrderModel::OrderModel(QObject *parent)
     :
     QAbstractTableModel(parent)
 {
+    int column = 0;
+    for (auto it = OrderModel::kHeaderLabels.begin(); it != OrderModel::kHeaderLabels.end(); ++it, ++column) {
+        roleToColumnMap[it.key()] = column;
+        columnToRoleMap[column] = it.key();
+    }
 }
 
 const QMap<int, QString> OrderModel::kHeaderLabels {
@@ -109,4 +114,12 @@ void OrderModel::clearOrders()
     beginResetModel();
     m_orders.clear();
     endResetModel();
+}
+
+int OrderModel::getColumnIndex(int role)
+{
+    if(roleToColumnMap.contains(role))
+        return roleToColumnMap[role];
+    else
+        return -1;
 }

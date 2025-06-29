@@ -30,6 +30,7 @@ void OrderFilterProxyModel::setPriceFilter(double min, double max)
     m_priceFilter.min = min;
     m_priceFilter.max = max;
     m_priceFilter.isActive = true;
+    emit filterChanged(OrderRoles::PriceRole, true);
     invalidateFilter();
 }
 
@@ -70,18 +71,21 @@ void OrderFilterProxyModel::setVolumeFilter(double min, double max)
     m_volumeFilter.min = min;
     m_volumeFilter.max = max;
     m_volumeFilter.isActive = true;
+    emit filterChanged(OrderRoles::VolumeRole, true);
     invalidateFilter();
 }
 
 void OrderFilterProxyModel::clearVolumeFilter()
 {
     m_volumeFilter.isActive = false;
+    emit filterChanged(OrderRoles::VolumeRole, false);
     invalidateFilter();
 }
 
 void OrderFilterProxyModel::clearPriceFilter()
 {
     m_priceFilter.isActive = false;
+    emit filterChanged(OrderRoles::PriceRole, false);
     invalidateFilter();
 }
 
@@ -90,7 +94,7 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
         QVariant leftData = sourceModel()->data(left);
         QVariant rightData = sourceModel()->data(right);
 
-        if (left.column() == 3) { // price column
+        if (leftData.toString().endsWith("$")) { // price column
             bool ok1, ok2;
             double l = leftData.toString().removeLast().toDouble(&ok1);
             double r = rightData.toString().removeLast().toDouble(&ok2);
@@ -99,12 +103,13 @@ bool OrderFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
                 return l < r;
             else qDebug() <<"double değil";
         }
-        else if(left.column() == 4) { // volume column
-            QStringList leftParts = leftData.toString().split("/");
-            QStringList rightParts = rightData.toString().split("/");
+        else if(leftData.toString().contains("%")) { // volume column
+
+            QString percentageL = leftData.toString().right(5);
+            QString percentageR = rightData.toString().right(5);
             try{
-                double l = leftParts[0].toDouble() / leftParts[1].toDouble();
-                double r = rightParts[0].toDouble() / rightParts[1].toDouble();
+                double l = percentageL.toDouble();
+                double r = percentageR.toDouble();
 
                 return l < r;
             }

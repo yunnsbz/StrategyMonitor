@@ -8,17 +8,18 @@
 #include "DataReceiver.h"
 #include "OrderTypeDelegate.h"
 #include "filterdialog.h"
+#include "order_model_roles.h"
 #include "strategy_model_roles.h"
 
 MainWindow::MainWindow(QWidget *parent)
     :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    ordersVM(new OrdersViewModel(this)),
-    strategiesVM(new StrategiesViewModel(this)),
-    dataReceiver(new DataReceiver(strategiesVM, ordersVM)),
-    priceDialog(new FilterDialog(this)),
-    volumeDialog(new FilterDialog(this))
+    m_ordersVM(new OrdersViewModel(this)),
+    m_strategiesVM(new StrategiesViewModel(this)),
+    m_dataReceiver(new DataReceiver(m_strategiesVM, m_ordersVM)),
+    m_priceDialog(new FilterDialog(this)),
+    m_volumeDialog(new FilterDialog(this))
 {
     ui->setupUi(this);
 
@@ -27,14 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->splitter->widget(0)->setMinimumWidth(320);
 
     // listView:
-    ui->listViewStrategies->setModel(strategiesVM->model());
+    ui->listViewStrategies->setModel(m_strategiesVM->model());
 
     StrategyDelegate *delegate = new StrategyDelegate(this);
     ui->listViewStrategies->setItemDelegate(delegate);
 
     // tableView
     ui->tableViewOrders->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
-    ui->tableViewOrders->setModel(ordersVM->model());
+    ui->tableViewOrders->setModel(m_ordersVM->model());
 
     OrderTypeDelegate *orderTypeDelegate = new OrderTypeDelegate(this);
     ui->tableViewOrders->setItemDelegateForColumn(SIDE_COLUMN_INDEX, orderTypeDelegate);
@@ -51,9 +52,11 @@ MainWindow::MainWindow(QWidget *parent)
             [this](const QPoint& pos) {
         int column = ui->tableViewOrders->horizontalHeader()->logicalIndexAt(pos);
 
-        if (column == PRICE_COLUMN_INDEX)
+        // use PRICE_COLUMN_INDEX instead if columns can change on the ui
+        // othervise columns can only change in the OrderModel (kHeaderLabels)
+        if (column == m_ordersVM->orderModel()->getColumnIndex(OrderRoles::PriceRole))
             onPriceFilterRequested();
-        else if(column == VOLUME_COLUMN_INDEX)
+        else if(column == m_ordersVM->orderModel()->getColumnIndex(OrderRoles::VolumeRole))
             onVolumeFilterRequested();
     });
 
@@ -70,8 +73,8 @@ MainWindow::MainWindow(QWidget *parent)
         onStrategyFilterChanged();
     });
 
-    ordersVM->orderModel()->setStrategyNameResolver([this](int strategyId) -> QString {
-        const StrategyData strategy = strategiesVM->getStrategy(strategyId);
+    m_ordersVM->orderModel()->setStrategyNameResolver([this](int strategyId) -> QString {
+        const StrategyData strategy = m_strategiesVM->getStrategy(strategyId);
         return strategy.strategy_name.isEmpty() ? QString("[Unknown]") : strategy.strategy_name;
     });
 }
@@ -86,59 +89,59 @@ void MainWindow::onMultipleListItemClicked(const QItemSelection &selected, const
     QModelIndexList deselectedIndexes = deselected.indexes();
 
     for(auto &index : deselectedIndexes)
-        strategiesVM->setStrategySelected(index.data(StrategyRoles::RawDataRole));
+        m_strategiesVM->setStrategySelected(index.data(StrategyRoles::RawDataRole));
 
     QModelIndexList selectedIndexes = selected.indexes();
 
     for(auto &index : selectedIndexes)
-        strategiesVM->setStrategySelected(index.data(StrategyRoles::RawDataRole));
+        m_strategiesVM->setStrategySelected(index.data(StrategyRoles::RawDataRole));
 
-    ordersVM->applyStrategyFilter(strategiesVM->getSelectedStrategyIds());
+    m_ordersVM->applyStrategyFilter(m_strategiesVM->getSelectedStrategyIds());
 
     onSelectedStrategiesChanged();
 }
 
 void MainWindow::onPriceFilterRequested()
 {
-    auto priceRange = ordersVM->getOrdersPriceRange();
+    auto priceRange = m_ordersVM->getOrdersPriceRange();
 
     if(priceRange.second <= 0) return;
 
-    priceDialog->setRange(priceRange.first, priceRange.second);
+    m_priceDialog->setRange(priceRange.first, priceRange.second);
 
-    priceDialog->setInfoText("Set Price Range Between Min and Max values:");
+    m_priceDialog->setTitleText("Set Price Range Between Min and Max values:");
 
-    if (priceDialog->exec() == QDialog::Accepted) {
-        if (priceDialog->wasClearFilterPressed()) {
-            ordersVM->clearPriceFilter();
+    if (m_priceDialog->exec() == QDialog::Accepted) {
+        if (m_priceDialog->wasClearFilterPressed()) {
+            m_ordersVM->clearPriceFilter();
         } else {
-            double min = priceDialog->minValue();
-            double max = priceDialog->maxValue();
-            ordersVM->setPriceFilter(min, max);
+            double min = m_priceDialog->minValue();
+            double max = m_priceDialog->maxValue();
+            m_ordersVM->setPriceFilter(min, max);
         }
     }
 }
 
 void MainWindow::onVolumeFilterRequested()
 {
-    volumeDialog->setRange(0, 100, true);
+    m_volumeDialog->setRange(0, 100, true);
 
-    volumeDialog->setInfoText("Set Volume persentage:");
+    m_volumeDialog->setTitleText("Set Volume percentage:");
 
-    if (volumeDialog->exec() == QDialog::Accepted) {
-        if (volumeDialog->wasClearFilterPressed()) {
-            ordersVM->clearVolumeFilter();
+    if (m_volumeDialog->exec() == QDialog::Accepted) {
+        if (m_volumeDialog->wasClearFilterPressed()) {
+            m_ordersVM->clearVolumeFilter();
         } else {
-            double min = volumeDialog->minValue();
-            double max = volumeDialog->maxValue();
-            ordersVM->setVolumeFilter(min, max);
+            double min = m_volumeDialog->minValue();
+            double max = m_volumeDialog->maxValue();
+            m_ordersVM->setVolumeFilter(min, max);
         }
     }
 }
 
 void MainWindow::onSelectedStrategiesChanged()
 {
-    auto names = strategiesVM->getSelectedStrategyNames();
+    auto names = m_strategiesVM->getSelectedStrategyNames();
 
     if(names.isEmpty()) {
         ui->labelSelectedStrategies->setText("(Showing All Orders)");
@@ -162,12 +165,12 @@ void MainWindow::onSelectedStrategiesChanged()
 void MainWindow::onStrategyFilterChanged()
 {
     if(m_showPausedToggle == m_showRunningToggle){
-        strategiesVM->clearStrategyFilter();
+        m_strategiesVM->clearStrategyFilter();
     }
     else if(m_showPausedToggle){
-        strategiesVM->setStrategyStateFilter("Paused");
+        m_strategiesVM->setStrategyStateFilter("Paused");
     }
     else if(m_showRunningToggle){
-        strategiesVM->setStrategyStateFilter("Running");
+        m_strategiesVM->setStrategyStateFilter("Running");
     }
 }

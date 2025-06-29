@@ -37,6 +37,14 @@ public:
     void setVolumeFilter(double min, double max);
     void clearVolumeFilter();
 
+
+signals:
+    /**
+     * catches any filter setting change.
+     * role: data model role.
+     */
+    void filterChanged(int role, bool active);
+
 protected:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;

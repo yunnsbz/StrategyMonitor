@@ -43,6 +43,9 @@ public:
      */
     void addOrder(const class OrderData& data);
 
+private slots:
+    void onOrderFilterChanged(int role, bool state);
+
 private:
     OrderModel* m_model;
     OrderFilterProxyModel* m_filteredOrderModel;

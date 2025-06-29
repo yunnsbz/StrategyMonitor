@@ -2,7 +2,6 @@
 #include "OrderModel.h"
 #include "OrderFilterProxyModel.h"
 #include "OrderData.h"
-#include "StrategyData.h"
 
 OrdersViewModel::OrdersViewModel(QObject *parent)
     :
@@ -11,6 +10,8 @@ OrdersViewModel::OrdersViewModel(QObject *parent)
     m_filteredOrderModel(new OrderFilterProxyModel(this))
 {
     m_filteredOrderModel->setSourceModel(m_model);
+
+    connect(filter(),&OrderFilterProxyModel::filterChanged, this, &OrdersViewModel::onOrderFilterChanged);
 }
 
 void OrdersViewModel::applyStrategyFilter(QSet<int> ids)
@@ -59,4 +60,9 @@ OrderFilterProxyModel *OrdersViewModel::filter()
 
 void OrdersViewModel::addOrder(const OrderData& data) {
     m_model->addOrder(data);
+}
+
+void OrdersViewModel::onOrderFilterChanged(int role, bool state)
+{
+
 }
