@@ -265,8 +265,6 @@
     <property name="title">
      <string>Debug</string>
     </property>
-    <addaction name="actionSimulateStrategy"/>
-    <addaction name="actionSimulateOrder"/>
     <addaction name="actionDeactivateAutoSim"/>
     <addaction name="actionSetAutoSimSpeed"/>
    </widget>
@@ -280,16 +278,6 @@
    <addaction name="menuDebug"/>
    <addaction name="menuHelp"/>
   </widget>
-  <action name="actionSimulateStrategy">
-   <property name="text">
-    <string>Simulate Strategy</string>
-   </property>
-  </action>
-  <action name="actionSimulateOrder">
-   <property name="text">
-    <string>Simulate Order</string>
-   </property>
-  </action>
   <action name="actionDeactivateAutoSim">
    <property name="text">
     <string>Deactivate Auto Sim</string>

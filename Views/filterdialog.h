@@ -18,10 +18,21 @@ public:
     double minValue() const;
     double maxValue() const;
 
-    void setInfoText(QString text);
+    void setTitleText(QString text);
 
+    /**
+     * Sets the minimum and maximum value range for the filter dialog.
+     *
+     * This function updates the UI labels and double spin boxes with the given range.
+     * If useParamForLimit is true, the spin boxes are clamped to the provided min and max values.
+     * Otherwise, a default wide range (0 to 10,000,000) is applied to allow unrestricted input.
+     * Internal min and max values are stored for later use, and the dialog inputs are initialized accordingly.
+     */
     void setRange(double min, double max, bool useParamForLimit = false);
 
+    /**
+     *  if pressed mainWindow will tell the viewModels to remove filters
+     */
     bool wasClearFilterPressed() const;
 
 private:

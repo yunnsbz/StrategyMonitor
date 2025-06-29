@@ -24,13 +24,21 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    /**
+     * used to show only one state from strategies.
+     * there are two states: "Running" and "Paused".
+     */
+    void onSelectedStrategiesChanged();
+
 private slots:
     void onMultipleListItemClicked(const QItemSelection &selected, const QItemSelection &deselected);
 
     void onPriceFilterRequested();
     void onVolumeFilterRequested();
-    void onSelectedStrategiesChanged();
 
+    /**
+     * used for strategy state toggle buttons
+     */
     void onStrategyFilterChanged();
 
 private:
@@ -47,14 +55,9 @@ private:
     static constexpr int SIDE_COLUMN_INDEX = 2;
     static constexpr int PRICE_COLUMN_INDEX = 3;
     static constexpr int VOLUME_COLUMN_INDEX = 4;
-    double m_currentPriceFilterMin = 0.0;
-    double m_currentPriceFilterMax = 0.0;
-    bool m_priceFilterActive = false;
 
-    // Strategy Filters:
+    // Strategy state filters
     bool m_showRunningToggle = false;
     bool m_showPausedToggle = false;
-
-
 };
 #endif // MAINWINDOW_H
