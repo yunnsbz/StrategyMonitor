@@ -8,6 +8,7 @@
 struct StrategyData
 {
     Q_GADGET
+public:
     int unique_strategy_id;
     QString strategy_name;
 
@@ -22,4 +23,12 @@ struct StrategyData
 
 Q_DECLARE_METATYPE(StrategyData)
 
+inline bool operator==(const StrategyData& lhs, const StrategyData& rhs)
+{
+    return lhs.unique_strategy_id == rhs.unique_strategy_id;
+}
+inline uint qHash(const StrategyData& key, uint seed = 0)
+{
+    return qHash(key.unique_strategy_id, seed);
+}
 #endif // STRATEGYDATA_H

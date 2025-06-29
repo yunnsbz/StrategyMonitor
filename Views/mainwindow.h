@@ -12,7 +12,9 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainViewModel;
+class DataReceiver;
+class StrategiesViewModel;
+class OrdersViewModel;
 
 class MainWindow : public QMainWindow
 {
@@ -34,7 +36,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    MainViewModel* mainVM;
+    StrategiesViewModel* strategiesVM;
+    OrdersViewModel* ordersVM;
+
+    DataReceiver* dataReceiver;
 
     FilterDialog* priceDialog;
     FilterDialog* volumeDialog;

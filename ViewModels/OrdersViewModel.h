@@ -14,6 +14,15 @@ class OrdersViewModel : public QObject
 public:
     explicit OrdersViewModel(QObject *parent = nullptr);
 
+    void applyStrategyFilter(QSet<int> ids);
+
+    void setPriceFilter(double min, double max);
+    QPair<double,double> getOrdersPriceRange();
+    void clearPriceFilter();
+
+    void setVolumeFilter(double min, double max);
+    void clearVolumeFilter();
+
     QAbstractItemModel* model();
     OrderModel* orderModel();
     OrderFilterProxyModel* filter();
@@ -23,6 +32,8 @@ public:
 private:
     OrderModel* m_model;
     OrderFilterProxyModel* m_filteredOrderModel;
+
+
 };
 
 #endif // ORDERSVIEWMODEL_H

@@ -2,6 +2,7 @@
 #include "OrderModel.h"
 #include "OrderFilterProxyModel.h"
 #include "OrderData.h"
+#include "StrategyData.h"
 
 OrdersViewModel::OrdersViewModel(QObject *parent)
     :
@@ -10,6 +11,36 @@ OrdersViewModel::OrdersViewModel(QObject *parent)
     m_filteredOrderModel(new OrderFilterProxyModel(this))
 {
     m_filteredOrderModel->setSourceModel(m_model);
+}
+
+void OrdersViewModel::applyStrategyFilter(QSet<int> ids)
+{
+    filter()->setSelectedStrategyIds(ids);
+}
+
+void OrdersViewModel::setPriceFilter(double min, double max)
+{
+    filter()->setPriceFilter(min, max);
+}
+
+QPair<double, double> OrdersViewModel::getOrdersPriceRange()
+{
+    return filter()->ordersPriceRange();
+}
+
+void OrdersViewModel::clearPriceFilter()
+{
+    filter()->clearPriceFilter();
+}
+
+void OrdersViewModel::setVolumeFilter(double min, double max)
+{
+    filter()->setVolumeFilter(min, max);
+}
+
+void OrdersViewModel::clearVolumeFilter()
+{
+    filter()->clearVolumeFilter();
 }
 
 QAbstractItemModel* OrdersViewModel::model() {
