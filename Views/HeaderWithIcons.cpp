@@ -48,15 +48,15 @@ void HeaderWithIcons::paintSection(QPainter *painter, const QRect &rect, int log
 
     if (isSortIndicatorShown() && logicalIndex == sortIndicatorSection()) {
         QPolygon arrow;
-        const QRect arrowRect = rect.adjusted(rect.width() - 14, 6, -4, -6); // sağ üst köşeye biraz içe
+        const QRect arrowRect = rect.adjusted(rect.width() - 14, 6, -4, -6);
 
         if (sortIndicatorOrder() == Qt::AscendingOrder) {
-            // ▲
+            // up arrow
             arrow << QPoint(arrowRect.left(), arrowRect.bottom())
                   << QPoint(arrowRect.center().x(), arrowRect.top())
                   << QPoint(arrowRect.right(), arrowRect.bottom());
         } else {
-            // ▼
+            // down arrow
             arrow << QPoint(arrowRect.left(), arrowRect.top())
                   << QPoint(arrowRect.center().x(), arrowRect.bottom())
                   << QPoint(arrowRect.right(), arrowRect.top());
@@ -64,7 +64,7 @@ void HeaderWithIcons::paintSection(QPainter *painter, const QRect &rect, int log
 
         painter->save();
         painter->setRenderHint(QPainter::Antialiasing);
-        painter->setBrush(Qt::white);   // veya tema rengine göre ayarla
+        painter->setBrush(Qt::white);
         painter->setPen(Qt::NoPen);
         painter->drawPolygon(arrow);
         painter->restore();

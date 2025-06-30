@@ -19,8 +19,8 @@ const QMap<int, QString> OrderModel::kHeaderLabels {
     { OrderRoles::OrderIdRole,      "Order ID" },
     { OrderRoles::BuySellRole,      "Side" },
     { OrderRoles::PriceRole,        "Price" },
-    { OrderRoles::FilledVolumeRole,       "Filled Volume" },
-    { OrderRoles::ActiveVolumeRole,       "Active Volume" },
+    { OrderRoles::FilledVolumeRole, "Filled Volume" },
+    { OrderRoles::ActiveVolumeRole, "Active Volume" },
 };
 
 int OrderModel::rowCount(const QModelIndex &parent) const
